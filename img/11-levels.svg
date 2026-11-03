@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 470" width="900" height="470" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">
+  <rect width="900" height="470" fill="#FFFFFF"/>
+  <text x="24" y="36" font-size="20" font-weight="700" fill="#22303A">Лестница результатов</text>
+  <text x="24" y="58" font-size="13" fill="#5B6770">Каждая ступень опирается на предыдущую; проверяйте снизу вверх</text>
+
+  <rect x="24" y="74" width="16" height="16" fill="#E4EFE8" stroke="#2E6B4F"/>
+  <text x="48" y="87" font-size="12" fill="#22303A">пройдено на стенде</text>
+  <rect x="190" y="74" width="16" height="16" fill="#EEF0F2" stroke="#9AA4AB" stroke-dasharray="4 3"/>
+  <text x="214" y="87" font-size="12" fill="#22303A">впереди</text>
+
+  <g stroke-width="1.5">
+    <rect x="30"  y="390" width="118" height="40"  fill="#E4EFE8" stroke="#2E6B4F"/>
+    <rect x="152" y="350" width="118" height="80"  fill="#E4EFE8" stroke="#2E6B4F"/>
+    <rect x="274" y="310" width="118" height="120" fill="#E4EFE8" stroke="#2E6B4F"/>
+    <rect x="396" y="270" width="118" height="160" fill="#E4EFE8" stroke="#2E6B4F"/>
+    <rect x="518" y="230" width="118" height="200" fill="#E4EFE8" stroke="#2E6B4F"/>
+    <rect x="640" y="190" width="118" height="240" fill="#EEF0F2" stroke="#9AA4AB" stroke-dasharray="5 4"/>
+    <rect x="762" y="150" width="118" height="280" fill="#EEF0F2" stroke="#9AA4AB" stroke-dasharray="5 4"/>
+  </g>
+
+  <g font-size="22" font-weight="700" text-anchor="middle">
+    <text x="89"  y="418" fill="#2E6B4F">0</text>
+    <text x="211" y="378" fill="#2E6B4F">1</text>
+    <text x="333" y="338" fill="#2E6B4F">2</text>
+    <text x="455" y="298" fill="#2E6B4F">3</text>
+    <text x="577" y="258" fill="#2E6B4F">4</text>
+    <text x="699" y="218" fill="#7A858C">5</text>
+    <text x="821" y="178" fill="#7A858C">6</text>
+  </g>
+
+  <g font-size="12" fill="#22303A" text-anchor="middle">
+    <text x="89"  y="364">Ядро видит</text><text x="89"  y="380">декодер</text>
+    <text x="211" y="324">Декодирует</text><text x="211" y="340">без экрана</text>
+    <text x="333" y="284" font-size="11">Экран без копий,</text><text x="333" y="300" font-size="11">в реальном времени</text>
+    <text x="455" y="244">Памяти</text><text x="455" y="260">с запасом</text>
+    <text x="577" y="204">Звук</text><text x="577" y="220">синхронно</text>
+    <text x="699" y="164">Часы</text><text x="699" y="180">без сбоев</text>
+    <text x="821" y="124">Плеер</text><text x="821" y="140">с управлением</text>
+  </g>
+
+  <g font-size="11" fill="#5B6770" text-anchor="middle">
+    <text x="89"  y="452">глава 5</text>
+    <text x="211" y="452">глава 6</text>
+    <text x="333" y="452">главы 7–8</text>
+    <text x="455" y="452">глава 9</text>
+    <text x="577" y="452">глава 10</text>
+    <text x="699" y="452">не проверено</text>
+    <text x="821" y="452">следующий этап</text>
+  </g>
+</svg>

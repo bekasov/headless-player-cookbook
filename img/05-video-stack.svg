@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 550" width="900" height="550" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">
+  <rect width="900" height="550" fill="#FFFFFF"/>
+  <text x="24" y="36" font-size="20" font-weight="700" fill="#22303A">Видеостек Linux на нашей плате</text>
+  <text x="24" y="58" font-size="13" fill="#5B6770">Снизу вверх: железо, драйверы, файлы устройств, библиотеки, программы</text>
+
+  <g font-size="13" fill="#22303A" text-anchor="middle">
+    <text x="345" y="82" font-weight="700">Видеодекодер</text>
+    <text x="525" y="82" font-weight="700">Дисплей</text>
+    <text x="705" y="82" font-weight="700">GPU</text>
+    <text x="865" y="82" font-weight="700" text-anchor="end">Звук</text>
+  </g>
+
+  <g font-size="13" fill="#22303A">
+    <text x="24" y="130" font-weight="700">Программы</text>
+    <text x="24" y="206" font-weight="700">Библиотеки</text>
+    <text x="24" y="282" font-weight="700">Файлы</text>
+    <text x="24" y="298" font-weight="700">устройств</text>
+    <text x="24" y="358" font-weight="700">Драйверы</text>
+    <text x="24" y="374" font-weight="700">ядра</text>
+    <text x="24" y="434" font-weight="700">Железо H616</text>
+  </g>
+
+  <g stroke-width="1.4">
+    <rect x="260" y="96" width="170" height="64" rx="5" fill="#E3ECF4" stroke="#34607F"/>
+    <rect x="440" y="96" width="170" height="64" rx="5" fill="#E3ECF4" stroke="#34607F"/>
+    <rect x="620" y="96" width="170" height="64" rx="5" fill="#E3ECF4" stroke="#34607F"/>
+    <rect x="800" y="96" width="76" height="64" rx="5" fill="#E3ECF4" stroke="#34607F"/>
+
+    <rect x="260" y="172" width="170" height="64" rx="5" fill="#E3ECF4" stroke="#34607F"/>
+    <rect x="440" y="172" width="170" height="64" rx="5" fill="#E3ECF4" stroke="#34607F"/>
+    <rect x="620" y="172" width="170" height="64" rx="5" fill="#E3ECF4" stroke="#34607F"/>
+    <rect x="800" y="172" width="76" height="64" rx="5" fill="#E3ECF4" stroke="#34607F"/>
+
+    <rect x="260" y="248" width="170" height="64" rx="5" fill="#EEF0F2" stroke="#5B6770"/>
+    <rect x="440" y="248" width="170" height="64" rx="5" fill="#EEF0F2" stroke="#5B6770"/>
+    <rect x="620" y="248" width="170" height="64" rx="5" fill="#EEF0F2" stroke="#5B6770"/>
+    <rect x="800" y="248" width="76" height="64" rx="5" fill="#EEF0F2" stroke="#5B6770"/>
+
+    <rect x="260" y="324" width="170" height="64" rx="5" fill="#E4EFE8" stroke="#2E6B4F"/>
+    <rect x="440" y="324" width="170" height="64" rx="5" fill="#E4EFE8" stroke="#2E6B4F"/>
+    <rect x="620" y="324" width="170" height="64" rx="5" fill="#E4EFE8" stroke="#2E6B4F"/>
+    <rect x="800" y="324" width="76" height="64" rx="5" fill="#E4EFE8" stroke="#2E6B4F"/>
+
+    <rect x="260" y="400" width="170" height="64" rx="5" fill="#E4EFE8" stroke="#2E6B4F"/>
+    <rect x="440" y="400" width="170" height="64" rx="5" fill="#E4EFE8" stroke="#2E6B4F"/>
+    <rect x="620" y="400" width="170" height="64" rx="5" fill="#E4EFE8" stroke="#2E6B4F"/>
+    <rect x="800" y="400" width="76" height="64" rx="5" fill="#E4EFE8" stroke="#2E6B4F"/>
+  </g>
+
+  <g font-size="12" fill="#22303A" text-anchor="middle">
+    <text x="345" y="124">gst-launch-1.0,</text><text x="345" y="142">наш плеер</text>
+    <text x="525" y="124">cage</text><text x="525" y="142">(композитор)</text>
+    <text x="705" y="124">cage рисует</text><text x="705" y="142">через GPU</text>
+    <text x="838" y="124">плеер,</text><text x="838" y="142">aplay</text>
+
+    <text x="345" y="200">GStreamer:</text><text x="345" y="218">v4l2codecs</text>
+    <text x="525" y="200">GStreamer:</text><text x="525" y="218">waylandsink, kmssink</text>
+    <text x="705" y="200">Mesa: Panfrost</text><text x="705" y="218">(EGL, GLES)</text>
+    <text x="838" y="200">alsasink,</text><text x="838" y="218">libasound</text>
+
+    <text x="345" y="276" font-family="DejaVu Sans Mono, Liberation Mono, monospace">/dev/video0</text><text x="345" y="294" font-family="DejaVu Sans Mono, Liberation Mono, monospace">/dev/media0</text>
+    <text x="525" y="285" font-family="DejaVu Sans Mono, Liberation Mono, monospace">/dev/dri/card0</text>
+    <text x="705" y="276" font-family="DejaVu Sans Mono, Liberation Mono, monospace">/dev/dri/card1</text><text x="705" y="294" font-family="DejaVu Sans Mono, Liberation Mono, monospace">renderD128</text>
+    <text x="838" y="285" font-family="DejaVu Sans Mono, Liberation Mono, monospace">/dev/snd</text>
+
+    <text x="345" y="361">cedrus</text>
+    <text x="525" y="361">sun4i-drm</text>
+    <text x="705" y="361">panfrost</text>
+    <text x="838" y="352">sun4i-codec,</text><text x="838" y="370">HDMI</text>
+
+    <text x="345" y="428">Видеодвижок</text><text x="345" y="446">(Video Engine)</text>
+    <text x="525" y="428">Display Engine,</text><text x="525" y="446">HDMI</text>
+    <text x="705" y="437">Mali-G31</text>
+    <text x="838" y="428">кодек,</text><text x="838" y="446">HDMI-звук</text>
+  </g>
+
+  <rect x="24" y="484" width="852" height="48" rx="6" fill="#F7EDD8" stroke="#B07A12" stroke-width="1.4"/>
+  <text x="40" y="505" font-size="13" fill="#22303A">Путь кадра без копий: видеодвижок → /dev/video0 → v4l2codecs → буфер DMABuf → waylandsink → cage</text>
+  <text x="40" y="523" font-size="13" fill="#22303A">→ Mesa → GPU переводит YUV в RGB → плоскость дисплея (card0) → HDMI</text>
+</svg>

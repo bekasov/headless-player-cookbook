@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 340" width="900" height="340" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">
+  <rect width="900" height="340" fill="#FFFFFF"/>
+  <text x="24" y="36" font-size="20" font-weight="700" fill="#22303A">Непрерывная память (CMA) в худший момент воспроизведения</text>
+  <text x="24" y="58" font-size="13" fill="#5B6770">Замеры стенда, H.265 1080p; масштаб: 5 пикселей на мегабайт</text>
+
+  <text x="24" y="116" font-size="14" font-weight="700" fill="#22303A">64 МБ</text>
+  <text x="24" y="134" font-size="12" fill="#5B6770">по умолчанию</text>
+  <rect x="220" y="96" width="308" height="44" fill="#F7EDD8" stroke="#B07A12" stroke-width="1.2"/>
+  <rect x="528" y="96" width="12" height="44" fill="#E4EFE8" stroke="#A83A3A" stroke-width="1.6"/>
+  <text x="236" y="123" font-size="13" fill="#22303A">в пике занято 61,6 МБ</text>
+  <text x="552" y="116" font-size="13" font-weight="700" fill="#A83A3A">свободно 2,4 МБ</text>
+  <text x="552" y="134" font-size="12" fill="#5B6770">меньше одного кадра</text>
+
+  <text x="24" y="206" font-size="14" font-weight="700" fill="#22303A">128 МБ</text>
+  <text x="24" y="224" font-size="12" fill="#5B6770">cma=128M</text>
+  <rect x="220" y="186" width="329" height="44" fill="#F7EDD8" stroke="#B07A12" stroke-width="1.2"/>
+  <rect x="549" y="186" width="311" height="44" fill="#E4EFE8" stroke="#2E6B4F" stroke-width="1.2"/>
+  <text x="236" y="213" font-size="13" fill="#22303A">в пике занято 65,8 МБ</text>
+  <text x="565" y="213" font-size="13" font-weight="700" fill="#2E6B4F">свободно 62,2 МБ</text>
+
+  <g stroke="#5B6770" stroke-width="1">
+    <line x1="220" y1="258" x2="860" y2="258"/>
+    <line x1="220" y1="252" x2="220" y2="264"/>
+    <line x1="380" y1="252" x2="380" y2="264"/>
+    <line x1="540" y1="252" x2="540" y2="264"/>
+    <line x1="700" y1="252" x2="700" y2="264"/>
+    <line x1="860" y1="252" x2="860" y2="264"/>
+  </g>
+  <g font-size="12" fill="#5B6770" text-anchor="middle">
+    <text x="220" y="280">0</text>
+    <text x="380" y="280">32</text>
+    <text x="540" y="280">64</text>
+    <text x="700" y="280">96</text>
+    <text x="860" y="280">128 МБ</text>
+  </g>
+
+  <text x="24" y="318" font-size="13" fill="#5B6770">Один кадр 1080p в NV12 занимает около 3 МБ: запас был меньше кадра, стал около двадцати кадров.</text>
+</svg>

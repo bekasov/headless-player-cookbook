@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 450" width="900" height="450" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#22303A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="450" fill="#FFFFFF"/>
+  <text x="24" y="36" font-size="20" font-weight="700" fill="#22303A">Декодеры «с состоянием» и «без»</text>
+  <text x="24" y="58" font-size="13" fill="#5B6770">Разница в том, кто разбирает сжатый поток: прошивка устройства или программа</text>
+
+  <rect x="24" y="74" width="416" height="320" rx="8" fill="#FFFFFF" stroke="#C4CBD0" stroke-width="1.2"/>
+  <text x="232" y="100" font-size="15" font-weight="700" fill="#22303A" text-anchor="middle">С состоянием (stateful)</text>
+
+  <rect x="92" y="114" width="280" height="56" rx="6" fill="#E3ECF4" stroke="#34607F" stroke-width="1.5"/>
+  <text x="232" y="138" font-size="14" font-weight="700" fill="#22303A" text-anchor="middle">Программа</text>
+  <text x="232" y="157" font-size="12" fill="#22303A" text-anchor="middle">отдаёт поток как есть</text>
+  <line x1="232" y1="170" x2="232" y2="210" stroke="#22303A" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="244" y="195" font-size="12" fill="#5B6770">сжатый поток целиком</text>
+
+  <rect x="92" y="212" width="280" height="84" rx="6" fill="#E4EFE8" stroke="#2E6B4F" stroke-width="1.5"/>
+  <text x="232" y="238" font-size="14" font-weight="700" fill="#22303A" text-anchor="middle">Устройство с прошивкой</text>
+  <text x="232" y="258" font-size="12" fill="#22303A" text-anchor="middle">само разбирает поток,</text>
+  <text x="232" y="276" font-size="12" fill="#22303A" text-anchor="middle">решает порядок кадров</text>
+  <line x1="232" y1="296" x2="232" y2="326" stroke="#22303A" stroke-width="1.8" marker-end="url(#arr)"/>
+  <rect x="152" y="328" width="160" height="40" rx="6" fill="#EEF0F2" stroke="#5B6770" stroke-width="1.2"/>
+  <text x="232" y="353" font-size="13" fill="#22303A" text-anchor="middle">кадры</text>
+
+  <rect x="460" y="74" width="416" height="320" rx="8" fill="#FFFFFF" stroke="#C4CBD0" stroke-width="1.2"/>
+  <text x="668" y="100" font-size="15" font-weight="700" fill="#22303A" text-anchor="middle">Без состояния (stateless)</text>
+
+  <rect x="528" y="114" width="280" height="84" rx="6" fill="#E3ECF4" stroke="#34607F" stroke-width="1.5"/>
+  <text x="668" y="138" font-size="14" font-weight="700" fill="#22303A" text-anchor="middle">Программа</text>
+  <text x="668" y="158" font-size="12" fill="#22303A" text-anchor="middle">сама разбирает поток: SPS, PPS,</text>
+  <text x="668" y="176" font-size="12" fill="#22303A" text-anchor="middle">слайсы, порядок кадров</text>
+  <line x1="668" y1="198" x2="668" y2="246" stroke="#22303A" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="680" y="218" font-size="12" fill="#5B6770">данные слайса и параметры</text>
+  <text x="680" y="234" font-size="12" fill="#5B6770">через контроллы V4L2</text>
+
+  <rect x="528" y="248" width="280" height="48" rx="6" fill="#E4EFE8" stroke="#2E6B4F" stroke-width="1.5"/>
+  <text x="668" y="270" font-size="14" font-weight="700" fill="#22303A" text-anchor="middle">Устройство</text>
+  <text x="668" y="288" font-size="12" fill="#22303A" text-anchor="middle">только вычисления</text>
+  <line x1="668" y1="296" x2="668" y2="326" stroke="#22303A" stroke-width="1.8" marker-end="url(#arr)"/>
+  <rect x="588" y="328" width="160" height="40" rx="6" fill="#EEF0F2" stroke="#5B6770" stroke-width="1.2"/>
+  <text x="668" y="353" font-size="13" fill="#22303A" text-anchor="middle">кадры</text>
+
+  <text x="24" y="420" font-size="13" fill="#5B6770">Слева: ffmpeg v4l2m2m (в mpv это v4l2m2m-copy).</text>
+  <text x="460" y="420" font-size="13" fill="#5B6770">Справа: Cedrus; GStreamer v4l2codecs, ffmpeg v4l2request.</text>
+</svg>

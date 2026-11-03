@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" width="900" height="400" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#22303A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="400" fill="#FFFFFF"/>
+  <text x="24" y="36" font-size="20" font-weight="700" fill="#22303A">Конвейер GStreamer: элементы, соединения, подписи</text>
+  <text x="24" y="58" font-size="13" fill="#5B6770">Рабочий конвейер со звуком из главы 10</text>
+
+  <g font-size="13" fill="#22303A" text-anchor="middle">
+    <rect x="20" y="175" width="100" height="50" rx="6" fill="#EEF0F2" stroke="#5B6770" stroke-width="1.4"/>
+    <text x="70" y="205">filesrc</text>
+    <rect x="140" y="175" width="124" height="50" rx="6" fill="#E3ECF4" stroke="#34607F" stroke-width="1.4"/>
+    <text x="202" y="205">matroskademux</text>
+
+    <rect x="290" y="105" width="70" height="50" rx="6" fill="#F7EDD8" stroke="#B07A12" stroke-width="1.4"/>
+    <text x="325" y="135">queue</text>
+    <rect x="378" y="105" width="104" height="50" rx="6" fill="#E3ECF4" stroke="#34607F" stroke-width="1.4"/>
+    <text x="430" y="135">h265parse</text>
+    <rect x="500" y="105" width="150" height="50" rx="6" fill="#E4EFE8" stroke="#2E6B4F" stroke-width="2"/>
+    <text x="575" y="128">v4l2slh265dec</text>
+    <text x="575" y="145" font-size="11" fill="#2E6B4F">аппаратный декодер</text>
+    <rect x="740" y="105" width="130" height="50" rx="6" fill="#E3ECF4" stroke="#34607F" stroke-width="1.4"/>
+    <text x="805" y="135">waylandsink</text>
+
+    <rect x="290" y="245" width="70" height="50" rx="6" fill="#F7EDD8" stroke="#B07A12" stroke-width="1.4"/>
+    <text x="325" y="275">queue</text>
+    <rect x="378" y="245" width="96" height="50" rx="6" fill="#E3ECF4" stroke="#34607F" stroke-width="1.4"/>
+    <text x="426" y="275">aacparse</text>
+    <rect x="492" y="245" width="70" height="50" rx="6" fill="#E3ECF4" stroke="#34607F" stroke-width="1.4"/>
+    <text x="527" y="275">faad</text>
+    <rect x="580" y="245" width="140" height="50" rx="6" fill="#E3ECF4" stroke="#34607F" stroke-width="1.4"/>
+    <text x="650" y="268">audioconvert,</text>
+    <text x="650" y="285">audioresample</text>
+    <rect x="740" y="245" width="130" height="50" rx="6" fill="#E3ECF4" stroke="#34607F" stroke-width="1.4"/>
+    <text x="805" y="275">alsasink</text>
+  </g>
+
+  <g stroke="#22303A" stroke-width="1.8" fill="none">
+    <line x1="120" y1="200" x2="136" y2="200" marker-end="url(#arr)"/>
+    <polyline points="264,190 276,130 286,130" marker-end="url(#arr)"/>
+    <polyline points="264,210 276,270 286,270" marker-end="url(#arr)"/>
+    <line x1="360" y1="130" x2="374" y2="130" marker-end="url(#arr)"/>
+    <line x1="482" y1="130" x2="496" y2="130" marker-end="url(#arr)"/>
+    <line x1="650" y1="130" x2="736" y2="130" marker-end="url(#arr)"/>
+    <line x1="360" y1="270" x2="374" y2="270" marker-end="url(#arr)"/>
+    <line x1="474" y1="270" x2="488" y2="270" marker-end="url(#arr)"/>
+    <line x1="562" y1="270" x2="576" y2="270" marker-end="url(#arr)"/>
+    <line x1="720" y1="270" x2="736" y2="270" marker-end="url(#arr)"/>
+  </g>
+
+  <g font-size="11" fill="#5B6770" font-family="DejaVu Sans Mono, Liberation Mono, monospace">
+    <text x="276" y="96">video/x-h265</text>
+    <text x="656" y="96">video/x-raw(memory:DMABuf)</text>
+    <text x="690" y="112">NV12</text>
+    <text x="276" y="318">audio/mpeg (AAC)</text>
+    <text x="566" y="318">audio/x-raw, S16LE, 48 кГц</text>
+    <text x="210" y="168" text-anchor="middle">name=d</text>
+    <text x="200" y="152">d.video_0</text>
+    <text x="200" y="254">d.audio_0</text>
+  </g>
+
+  <text x="24" y="356" font-size="13" fill="#5B6770">В командной строке соединение пишется знаком «!». Подпись (caps) на каждом соединении это договор о формате:</text>
+  <text x="24" y="376" font-size="13" fill="#5B6770">если соседи не договорились, конвейер не стартует. Очереди дают веткам свои потоки выполнения.</text>
+</svg>

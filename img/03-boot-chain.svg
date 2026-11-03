@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 380" width="900" height="380" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#22303A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="380" fill="#FFFFFF"/>
+  <text x="24" y="36" font-size="20" font-weight="700" fill="#22303A">Цепочка загрузки ARM-платы</text>
+  <text x="24" y="58" font-size="13" fill="#5B6770">Каждое звено должно быть именно для этой платы</text>
+
+  <g font-size="12" fill="#22303A">
+    <rect x="27" y="84" width="158" height="96" rx="6" fill="#E4EFE8" stroke="#2E6B4F" stroke-width="1.5"/>
+    <text x="106" y="110" font-size="14" font-weight="700" text-anchor="middle">1. ПЗУ чипа</text>
+    <text x="106" y="132" text-anchor="middle">зашито в кристалл,</text>
+    <text x="106" y="148" text-anchor="middle">ищет загрузчик</text>
+    <text x="106" y="164" text-anchor="middle">в известном месте</text>
+
+    <rect x="199" y="84" width="158" height="96" rx="6" fill="#E4EFE8" stroke="#2E6B4F" stroke-width="1.5"/>
+    <text x="278" y="110" font-size="14" font-weight="700" text-anchor="middle">2. U-Boot</text>
+    <text x="278" y="132" text-anchor="middle">8 КиБ от начала карты</text>
+    <text x="278" y="148" text-anchor="middle">(у Allwinner),</text>
+    <text x="278" y="164" text-anchor="middle">настраивает память</text>
+
+    <rect x="371" y="84" width="158" height="96" rx="6" fill="#E4EFE8" stroke="#2E6B4F" stroke-width="1.5"/>
+    <text x="450" y="110" font-size="14" font-weight="700" text-anchor="middle">3. Ядро + .dtb</text>
+    <text x="450" y="132" text-anchor="middle">devicetree описывает,</text>
+    <text x="450" y="148" text-anchor="middle">какое железо есть</text>
+    <text x="450" y="164" text-anchor="middle">и как подключено</text>
+
+    <rect x="543" y="84" width="158" height="96" rx="6" fill="#E4EFE8" stroke="#2E6B4F" stroke-width="1.5"/>
+    <text x="622" y="110" font-size="14" font-weight="700" text-anchor="middle">4. Драйверы</text>
+    <text x="622" y="132" text-anchor="middle">Cedrus, sun4i-drm,</text>
+    <text x="622" y="148" text-anchor="middle">Panfrost, звук.</text>
+    <text x="622" y="164" text-anchor="middle">Нет драйвера: нет функции</text>
+
+    <rect x="715" y="84" width="158" height="96" rx="6" fill="#E3ECF4" stroke="#34607F" stroke-width="1.5"/>
+    <text x="794" y="110" font-size="14" font-weight="700" text-anchor="middle">5. Система</text>
+    <text x="794" y="132" text-anchor="middle">Armbian,</text>
+    <text x="794" y="148" text-anchor="middle">Debian 13,</text>
+    <text x="794" y="164" text-anchor="middle">ваши программы</text>
+  </g>
+
+  <line x1="185" y1="132" x2="197" y2="132" stroke="#22303A" stroke-width="1.8" marker-end="url(#arr)"/>
+  <line x1="357" y1="132" x2="369" y2="132" stroke="#22303A" stroke-width="1.8" marker-end="url(#arr)"/>
+  <line x1="529" y1="132" x2="541" y2="132" stroke="#22303A" stroke-width="1.8" marker-end="url(#arr)"/>
+  <line x1="701" y1="132" x2="713" y2="132" stroke="#22303A" stroke-width="1.8" marker-end="url(#arr)"/>
+
+  <rect x="27" y="214" width="846" height="70" rx="6" fill="#EEF0F2" stroke="#5B6770" stroke-width="1.2"/>
+  <text x="44" y="242" font-size="14" font-weight="700" fill="#22303A">Для сравнения, ПК</text>
+  <text x="44" y="266" font-size="13" fill="#22303A">Прошивка UEFI одинакова для всех машин, железо описывает себя само (PCI, ACPI), поэтому один ISO грузится везде.</text>
+
+  <text x="24" y="320" font-size="13" fill="#5B6770">Звенья 2 и 3 у каждой платы свои. Поэтому «универсальный ARM-образ» либо рассчитан на UEFI-платы и серверы,</text>
+  <text x="24" y="340" font-size="13" fill="#5B6770">либо требует, чтобы загрузчик и ядро под свою плату вы поставили сами.</text>
+</svg>

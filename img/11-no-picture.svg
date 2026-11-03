@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 820" width="900" height="820" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#22303A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="820" fill="#FFFFFF"/>
+  <text x="24" y="36" font-size="20" font-weight="700" fill="#22303A">Если нет картинки</text>
+  <text x="24" y="58" font-size="13" fill="#5B6770">Идите сверху вниз; первая сработавшая ветка подсказывает главу</text>
+
+  <rect x="150" y="78" width="200" height="40" rx="20" fill="#F6E1E1" stroke="#A83A3A" stroke-width="1.5"/>
+  <text x="250" y="103" font-size="14" font-weight="700" fill="#22303A" text-anchor="middle">Нет картинки</text>
+  <line x1="250" y1="118" x2="250" y2="127" stroke="#22303A" stroke-width="1.8" marker-end="url(#arr)"/>
+
+  <g font-size="13" fill="#22303A" text-anchor="middle">
+    <polygon points="250,129 450,175 250,221 50,175" fill="#E4EFE8" stroke="#2E6B4F" stroke-width="1.5"/>
+    <text x="250" y="171">Есть /dev/video0</text><text x="250" y="189">и S265 в v4l2-ctl?</text>
+
+    <polygon points="250,249 450,295 250,341 50,295" fill="#E4EFE8" stroke="#2E6B4F" stroke-width="1.5"/>
+    <text x="250" y="291">Декодирует в fakesink</text><text x="250" y="309">(sync=false)?</text>
+
+    <polygon points="250,369 450,415 250,461 50,415" fill="#E4EFE8" stroke="#2E6B4F" stroke-width="1.5"/>
+    <text x="250" y="411">Тестовая картинка</text><text x="250" y="429">видна на экране?</text>
+
+    <polygon points="250,489 450,535 250,581 50,535" fill="#E4EFE8" stroke="#2E6B4F" stroke-width="1.5"/>
+    <text x="250" y="531">«copying frames» или</text><text x="250" y="549">«cannot have a wl_buffer»?</text>
+
+    <polygon points="250,609 450,655 250,701 50,655" fill="#E4EFE8" stroke="#2E6B4F" stroke-width="1.5"/>
+    <text x="250" y="651">Стоит без ошибок</text><text x="250" y="669">и без нагрузки CPU?</text>
+  </g>
+
+  <g stroke="#22303A" stroke-width="1.8">
+    <line x1="250" y1="221" x2="250" y2="247" marker-end="url(#arr)"/>
+    <line x1="250" y1="341" x2="250" y2="367" marker-end="url(#arr)"/>
+    <line x1="250" y1="461" x2="250" y2="487" marker-end="url(#arr)"/>
+    <line x1="250" y1="581" x2="250" y2="607" marker-end="url(#arr)"/>
+    <line x1="250" y1="701" x2="250" y2="735" marker-end="url(#arr)"/>
+    <line x1="450" y1="175" x2="516" y2="175" marker-end="url(#arr)"/>
+    <line x1="450" y1="295" x2="516" y2="295" marker-end="url(#arr)"/>
+    <line x1="450" y1="415" x2="516" y2="415" marker-end="url(#arr)"/>
+    <line x1="450" y1="535" x2="516" y2="535" marker-end="url(#arr)"/>
+    <line x1="450" y1="655" x2="516" y2="655" marker-end="url(#arr)"/>
+  </g>
+
+  <g font-size="12">
+    <text x="262" y="240" fill="#2E6B4F">да</text>
+    <text x="262" y="360" fill="#2E6B4F">да</text>
+    <text x="262" y="480" fill="#2E6B4F">да</text>
+    <text x="262" y="600" fill="#A83A3A">нет</text>
+    <text x="262" y="722" fill="#A83A3A">нет</text>
+    <text x="470" y="167" fill="#A83A3A">нет</text>
+    <text x="470" y="287" fill="#A83A3A">нет</text>
+    <text x="470" y="407" fill="#A83A3A">нет</text>
+    <text x="470" y="527" fill="#2E6B4F">да</text>
+    <text x="470" y="647" fill="#2E6B4F">да</text>
+  </g>
+
+  <g font-size="12" fill="#22303A">
+    <rect x="520" y="147" width="360" height="56" rx="6" fill="#EEF0F2" stroke="#5B6770" stroke-width="1.4"/>
+    <text x="536" y="170">Ядро, драйвер, выбор ОС</text>
+    <text x="536" y="190" fill="#5B6770">главы 3 и 5</text>
+
+    <rect x="520" y="267" width="360" height="56" rx="6" fill="#EEF0F2" stroke="#5B6770" stroke-width="1.4"/>
+    <text x="536" y="290">Журнал плагина, отказ драйвера (dev_debug)</text>
+    <text x="536" y="310" fill="#5B6770">главы 5 и 6</text>
+
+    <rect x="520" y="387" width="360" height="56" rx="6" fill="#EEF0F2" stroke="#5B6770" stroke-width="1.4"/>
+    <text x="536" y="410">Плоскость и порядок слоёв; cage только с консоли</text>
+    <text x="536" y="430" fill="#5B6770">глава 7</text>
+
+    <rect x="520" y="507" width="360" height="56" rx="6" fill="#EEF0F2" stroke="#5B6770" stroke-width="1.4"/>
+    <text x="536" y="530">Версия плагина, обрезка 1088 до 1080</text>
+    <text x="536" y="550" fill="#5B6770">глава 8</text>
+
+    <rect x="520" y="627" width="360" height="56" rx="6" fill="#EEF0F2" stroke="#5B6770" stroke-width="1.4"/>
+    <text x="536" y="650">Опережение звука, очереди; Not enough memory: CMA</text>
+    <text x="536" y="670" fill="#5B6770">главы 10 и 9</text>
+  </g>
+
+  <rect x="80" y="737" width="340" height="56" rx="6" fill="#F7EDD8" stroke="#B07A12" stroke-width="1.5"/>
+  <text x="250" y="760" font-size="12" fill="#22303A" text-anchor="middle">Прочитать лог целиком, менять по одной детали</text>
+  <text x="250" y="780" font-size="12" fill="#5B6770" text-anchor="middle">глава 11</text>
+</svg>

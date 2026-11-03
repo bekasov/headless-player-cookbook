@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 490" width="900" height="490" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#22303A"/>
+    </marker>
+    <marker id="arrRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#A83A3A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="490" fill="#FFFFFF"/>
+  <text x="24" y="36" font-size="20" font-weight="700" fill="#22303A">Как звук останавливает видео</text>
+  <text x="24" y="58" font-size="13" fill="#5B6770">Взаимная блокировка на этапе предзагрузки (preroll)</text>
+
+  <text x="24" y="88" font-size="13" font-weight="700" fill="#22303A">Порядок пакетов в файле</text>
+  <g font-size="11" fill="#22303A" text-anchor="middle">
+    <rect x="24" y="98" width="20" height="20" fill="#F7EDD8" stroke="#B07A12"/><text x="34" y="112">З</text>
+    <rect x="48" y="98" width="20" height="20" fill="#F7EDD8" stroke="#B07A12"/><text x="58" y="112">З</text>
+    <rect x="72" y="98" width="20" height="20" fill="#F7EDD8" stroke="#B07A12"/><text x="82" y="112">З</text>
+    <rect x="96" y="98" width="20" height="20" fill="#F7EDD8" stroke="#B07A12"/><text x="106" y="112">З</text>
+    <rect x="120" y="98" width="20" height="20" fill="#F7EDD8" stroke="#B07A12"/><text x="130" y="112">З</text>
+    <rect x="144" y="98" width="20" height="20" fill="#F7EDD8" stroke="#B07A12"/><text x="154" y="112">З</text>
+    <rect x="168" y="98" width="20" height="20" fill="#F7EDD8" stroke="#B07A12"/><text x="178" y="112">З</text>
+    <rect x="192" y="98" width="20" height="20" fill="#F7EDD8" stroke="#B07A12"/><text x="202" y="112">З</text>
+    <text x="236" y="112" font-size="14">…</text>
+    <rect x="260" y="98" width="20" height="20" fill="#F7EDD8" stroke="#B07A12"/><text x="270" y="112">З</text>
+    <rect x="284" y="98" width="20" height="20" fill="#F7EDD8" stroke="#B07A12"/><text x="294" y="112">З</text>
+    <rect x="308" y="98" width="20" height="20" fill="#E3ECF4" stroke="#34607F"/><text x="318" y="112">В</text>
+    <rect x="332" y="98" width="20" height="20" fill="#F7EDD8" stroke="#B07A12"/><text x="342" y="112">З</text>
+    <rect x="356" y="98" width="20" height="20" fill="#E3ECF4" stroke="#34607F"/><text x="366" y="112">В</text>
+  </g>
+  <path d="M24,126 L24,132 L304,132 L304,126" fill="none" stroke="#5B6770" stroke-width="1"/>
+  <text x="164" y="148" font-size="12" fill="#5B6770" text-anchor="middle">50 пакетов звука, около 1,07 с, до первого видео</text>
+  <text x="392" y="113" font-size="12" fill="#5B6770">З: звук, В: видео</text>
+
+  <rect x="40" y="200" width="160" height="80" rx="6" fill="#E3ECF4" stroke="#34607F" stroke-width="1.5"/>
+  <text x="120" y="230" font-size="13" font-weight="700" fill="#22303A" text-anchor="middle">Демультиплексор</text>
+  <text x="120" y="250" font-size="12" fill="#22303A" text-anchor="middle">один поток</text>
+  <text x="120" y="266" font-size="12" fill="#22303A" text-anchor="middle">выполнения</text>
+
+  <rect x="260" y="172" width="180" height="58" rx="6" fill="#F7EDD8" stroke="#A83A3A" stroke-width="1.8"/>
+  <text x="350" y="196" font-size="13" fill="#22303A" text-anchor="middle">Очередь звука</text>
+  <text x="350" y="215" font-size="12" fill="#A83A3A" text-anchor="middle">заполнена (предел 1 с)</text>
+  <rect x="490" y="172" width="190" height="58" rx="6" fill="#E3ECF4" stroke="#34607F" stroke-width="1.5"/>
+  <text x="585" y="196" font-size="13" fill="#22303A" text-anchor="middle">Приёмник звука</text>
+  <text x="585" y="215" font-size="12" fill="#22303A" text-anchor="middle">буфер есть, ждёт</text>
+
+  <rect x="260" y="262" width="180" height="58" rx="6" fill="#E4EFE8" stroke="#2E6B4F" stroke-width="1.5"/>
+  <text x="350" y="286" font-size="13" fill="#22303A" text-anchor="middle">Разбор и декодер</text>
+  <text x="350" y="305" font-size="12" fill="#22303A" text-anchor="middle">ждут видеопакеты</text>
+  <rect x="490" y="262" width="190" height="58" rx="6" fill="#E3ECF4" stroke="#34607F" stroke-width="1.5"/>
+  <text x="585" y="286" font-size="13" fill="#22303A" text-anchor="middle">Приёмник видео</text>
+  <text x="585" y="305" font-size="12" fill="#22303A" text-anchor="middle">буфера нет</text>
+
+  <line x1="200" y1="225" x2="256" y2="201" stroke="#22303A" stroke-width="1.8" marker-end="url(#arr)"/>
+  <line x1="200" y1="255" x2="256" y2="291" stroke="#A83A3A" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#arrRed)"/>
+  <line x1="440" y1="201" x2="486" y2="201" stroke="#22303A" stroke-width="1.8" marker-end="url(#arr)"/>
+  <line x1="440" y1="291" x2="486" y2="291" stroke="#22303A" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="40" y="304" font-size="12" fill="#A83A3A">заблокирован на</text>
+  <text x="40" y="320" font-size="12" fill="#A83A3A">звуковом пакете</text>
+  <text x="206" y="336" font-size="12" fill="#A83A3A">до видео не доходит</text>
+
+  <rect x="700" y="172" width="180" height="148" rx="6" fill="#F6E1E1" stroke="#A83A3A" stroke-width="1.5"/>
+  <text x="790" y="200" font-size="13" font-weight="700" fill="#A83A3A" text-anchor="middle">Все ждут</text>
+  <text x="790" y="220" font-size="13" font-weight="700" fill="#A83A3A" text-anchor="middle">друг друга</text>
+  <text x="790" y="248" font-size="12" fill="#22303A" text-anchor="middle">нет ошибок,</text>
+  <text x="790" y="266" font-size="12" fill="#22303A" text-anchor="middle">процессор спит,</text>
+  <text x="790" y="284" font-size="12" fill="#22303A" text-anchor="middle">нет PREROLLED</text>
+
+  <rect x="24" y="372" width="852" height="86" rx="6" fill="#E4EFE8" stroke="#2E6B4F" stroke-width="1.6"/>
+  <text x="40" y="398" font-size="14" font-weight="700" fill="#22303A">Решение</text>
+  <text x="40" y="420" font-size="13" fill="#22303A">Очереди на 10 секунд данных (буферы и байты без предела) вмещают 1,07 с опережающего звука.</text>
+  <text x="40" y="440" font-size="13" fill="#22303A">Демультиплексор доходит до видео, оба приёмника получают буферы, конвейер стартует.</text>
+</svg>

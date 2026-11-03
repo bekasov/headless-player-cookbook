@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 690" width="900" height="690" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#22303A"/>
+    </marker>
+  </defs>
+  <rect width="900" height="690" fill="#FFFFFF"/>
+  <text x="24" y="36" font-size="20" font-weight="700" fill="#22303A">Как выбирать ОС для плеера</text>
+  <text x="24" y="58" font-size="13" fill="#5B6770">Сначала самое жёсткое требование, потом образ жизни устройства, потом свежесть</text>
+
+  <rect x="150" y="80" width="300" height="44" rx="22" fill="#EEF0F2" stroke="#5B6770" stroke-width="1.5"/>
+  <text x="300" y="107" font-size="14" font-weight="700" fill="#22303A" text-anchor="middle">Нужен аппаратный H.265</text>
+  <line x1="300" y1="124" x2="300" y2="142" stroke="#22303A" stroke-width="1.8" marker-end="url(#arr)"/>
+
+  <polygon points="300,144 500,200 300,256 100,200" fill="#E4EFE8" stroke="#2E6B4F" stroke-width="1.5"/>
+  <text x="300" y="196" font-size="13" fill="#22303A" text-anchor="middle">Есть драйвер декодера</text>
+  <text x="300" y="214" font-size="13" fill="#22303A" text-anchor="middle">для чипа в ядре этой ОС?</text>
+  <line x1="500" y1="200" x2="556" y2="200" stroke="#22303A" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="520" y="192" font-size="12" fill="#A83A3A">нет</text>
+  <rect x="560" y="172" width="316" height="56" rx="6" fill="#F6E1E1" stroke="#A83A3A" stroke-width="1.5"/>
+  <text x="718" y="196" font-size="13" fill="#22303A" text-anchor="middle">Отбросить: FreeBSD, OpenBSD,</text>
+  <text x="718" y="214" font-size="13" fill="#22303A" text-anchor="middle">ядра без поддержки видеоблока</text>
+  <line x1="300" y1="256" x2="300" y2="282" stroke="#22303A" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="310" y="274" font-size="12" fill="#2E6B4F">да</text>
+
+  <polygon points="300,284 500,340 300,396 100,340" fill="#E4EFE8" stroke="#2E6B4F" stroke-width="1.5"/>
+  <text x="300" y="336" font-size="13" fill="#22303A" text-anchor="middle">Нужен обычный Linux</text>
+  <text x="300" y="354" font-size="13" fill="#22303A" text-anchor="middle">(apt, свои службы, модем)?</text>
+  <line x1="500" y1="340" x2="556" y2="340" stroke="#22303A" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="520" y="332" font-size="12" fill="#A83A3A">нет</text>
+  <rect x="560" y="312" width="316" height="56" rx="6" fill="#E3ECF4" stroke="#34607F" stroke-width="1.5"/>
+  <text x="718" y="336" font-size="13" fill="#22303A" text-anchor="middle">Приставка: LibreELEC (Kodi),</text>
+  <text x="718" y="354" font-size="13" fill="#22303A" text-anchor="middle">для H616 пока ночные сборки</text>
+  <line x1="300" y1="396" x2="300" y2="422" stroke="#22303A" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="310" y="414" font-size="12" fill="#2E6B4F">да</text>
+
+  <polygon points="300,424 500,480 300,536 100,480" fill="#E4EFE8" stroke="#2E6B4F" stroke-width="1.5"/>
+  <text x="300" y="476" font-size="13" fill="#22303A" text-anchor="middle">Есть свежий образ</text>
+  <text x="300" y="494" font-size="13" fill="#22303A" text-anchor="middle">именно для этой платы?</text>
+  <line x1="500" y1="480" x2="556" y2="480" stroke="#22303A" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="520" y="472" font-size="12" fill="#A83A3A">нет</text>
+  <rect x="560" y="452" width="316" height="56" rx="6" fill="#EEF0F2" stroke="#5B6770" stroke-width="1.5"/>
+  <text x="718" y="476" font-size="13" fill="#22303A" text-anchor="middle">Образ производителя или сборка:</text>
+  <text x="718" y="494" font-size="13" fill="#22303A" text-anchor="middle">старые ядра, больше ручной работы</text>
+  <line x1="300" y1="536" x2="300" y2="566" stroke="#22303A" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="310" y="556" font-size="12" fill="#2E6B4F">да</text>
+
+  <rect x="120" y="568" width="360" height="56" rx="6" fill="#E4EFE8" stroke="#2E6B4F" stroke-width="2.2"/>
+  <text x="300" y="592" font-size="14" font-weight="700" fill="#22303A" text-anchor="middle">Armbian</text>
+  <text x="300" y="611" font-size="13" fill="#22303A" text-anchor="middle">наш выбор: Debian 13, минимальный образ</text>
+
+  <text x="24" y="664" font-size="13" fill="#5B6770">Проверяйте на дату: поддержка чипов в ядре и дистрибутивах меняется от месяца к месяцу.</text>
+</svg>
