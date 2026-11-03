@@ -1,0 +1,58 @@
+# Каждый пуш в main: проверка книги, сборка PDF и релиз с версией-датой (2026-11-04).
+# Дата берётся из коммита. Если за этот день релиз уже есть, он пересоздаётся на новом коммите.
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pandoc and fonts
+        run: |
+          curl -fsSL -o "$RUNNER_TEMP/pandoc.deb" \
+            https://github.com/jgm/pandoc/releases/download/3.10.2/pandoc-3.10.2-1-amd64.deb
+          sudo apt-get update
+          sudo apt-get install -y "$RUNNER_TEMP/pandoc.deb" \
+            fonts-noto-core fonts-noto-mono fonts-dejavu-core
+          pandoc --version | head -n 1
+          google-chrome --version
+
+      - name: Check book
+        run: python3 tools/check.py
+
+      - name: Build PDF
+        run: python3 tools/build_pdf.py
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION=$(git log -1 --format=%cs)
+          mkdir -p release
+          cp dist/headless-player-cookbook.pdf  "release/headless-player-cookbook-$VERSION.pdf"
+          cp dist/headless-player-cookbook.html "release/headless-player-cookbook-$VERSION.html"
+          if gh release view "$VERSION" >/dev/null 2>&1; then
+            gh release delete "$VERSION" --yes --cleanup-tag
+          fi
+          {
+            echo "Сборка книги из коммита ${GITHUB_SHA::7}: $(git log -1 --format=%s)"
+            echo
+            echo "- PDF: печатная версия с обложкой и содержанием"
+            echo "- HTML: та же книга одной страницей"
+          } > release/notes.md
+          gh release create "$VERSION" release/*.pdf release/*.html \
+            --target "$GITHUB_SHA" \
+            --title "Видео без экрана $VERSION" \
+            --notes-file release/notes.md

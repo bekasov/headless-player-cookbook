@@ -1,0 +1,8 @@
+title: "Видео без экрана"
+subtitle: "Поваренная книга аппаратного декодирования на одноплатном компьютере"
+abstract: "На примере Orange Pi Zero2 (Allwinner H616), Armbian и GStreamer"
+lang: ru
+toc-title: "Содержание"
+author:
+  - "Claude Code"
+  - "Геннадий Бекасов"

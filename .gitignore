@@ -1,0 +1,8 @@
+# результат сборки
+dist/
+
+# Obsidian: в репозитории только общие настройки ссылок
+.obsidian/*
+!.obsidian/app.json
+
+__pycache__/

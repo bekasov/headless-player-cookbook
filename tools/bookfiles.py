@@ -1,0 +1,25 @@
+"""Общие функции для tools/check.py и tools/build_pdf.py."""
+import pathlib
+import re
+
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+BOOK = ROOT / "book"
+SCRIPTS = ROOT / "scripts"
+
+FRONTMATTER = re.compile(r"\A---\n.*?\n---\n", re.S)
+FOOTER = re.compile(r"\n---\n\n(?:Назад|Далее|В начало):[^\n]*\n*\Z")
+LINK = re.compile(r"(!?)\[([^\]]*)\]\(([^)\s]+)\)")
+SCRIPT_BLOCK = re.compile(r"^## `([\w.-]+\.sh)`[^\n]*\n.*?```bash\n(.*?)```", re.S | re.M)
+
+
+def chapters():
+    """Файлы книги в порядке чтения: NN-имя.md."""
+    return sorted(BOOK.glob("[0-9][0-9]-*.md"))
+
+
+def strip_frontmatter(text):
+    return FRONTMATTER.sub("", text, count=1).lstrip("\n")
+
+
+def strip_footer(text):
+    return FOOTER.sub("\n", text)

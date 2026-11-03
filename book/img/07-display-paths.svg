@@ -46,7 +46,7 @@
   <rect x="40" y="356" width="150" height="44" rx="6" fill="#E4EFE8" stroke="#2E6B4F" stroke-width="1.4"/>
   <text x="115" y="383" font-size="12" fill="#22303A" text-anchor="middle">Декодер</text>
   <line x1="190" y1="378" x2="226" y2="378" stroke="#22303A" stroke-width="1.8" marker-end="url(#arr)"/>
-  <text x="208" y="370" font-size="10" fill="#2E6B4F" text-anchor="middle">DMABuf</text>
+  <text x="208" y="352" font-size="10" fill="#2E6B4F" text-anchor="middle">DMABuf</text>
   <rect x="230" y="356" width="100" height="44" rx="6" fill="#E3ECF4" stroke="#34607F" stroke-width="1.4"/>
   <text x="280" y="375" font-size="12" fill="#22303A" text-anchor="middle">Композитор</text>
   <text x="280" y="391" font-size="11" fill="#5B6770" text-anchor="middle">cage</text>

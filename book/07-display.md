@@ -1,3 +1,10 @@
+---
+aliases:
+  - Глава 7
+tags:
+  - книга/глава
+---
+
 # Глава 7. Как кадр попадает на экран
 
 Декодер выдаёт почти четыреста кадров в секунду. Кажется, осталось «просто показать».
@@ -15,8 +22,8 @@
 
 **Решение.**
 
-```
-[плата]
+```bash
+# [плата]
 sudo apt install libdrm-tests
 modetest -M sun4i-drm -p > $HOME/test/planes.txt 2>&1
 grep -E '^[0-9]+[[:space:]]+[0-9]+[[:space:]]+[0-9]+[[:space:]]+[0-9]+,[0-9]+|formats:' $HOME/test/planes.txt
@@ -26,7 +33,7 @@ grep -H . /sys/class/drm/*/status
 
 Ответ стенда, сокращённо:
 
-```
+```text
 33  0   0   ...  formats: AB15 AB30 ... AR24 ... XR24   (Overlay)
 39  47  52  ...  formats: AB15 ... AR24 ... XR24        (Primary, на нём консоль)
 43  0   0   ...  formats: AB15 ... AR24 ... XR24        (Overlay)
@@ -44,8 +51,9 @@ grep -H . /sys/class/drm/*/status
 и только линейные. Ни `NV12`, ни плиточного формата Allwinner, ни AFBC. Значит, кадр из
 декодера нельзя «положить» на плоскость напрямую: его сначала нужно перевести в RGB.
 
-**Подводные камни.** Тип плоскости в `modetest` выводится числом: 0 это Overlay, 1 это
-Primary, 2 это Cursor.
+> [!warning] Подводные камни
+> Тип плоскости в `modetest` выводится числом: 0 это Overlay, 1 это
+> Primary, 2 это Cursor.
 
 ---
 
@@ -55,8 +63,8 @@ Primary, 2 это Cursor.
 
 **Решение.**
 
-```
-[плата]
+```bash
+# [плата]
 sudo timeout 10 gst-launch-1.0 videotestsrc pattern=smpte ! \
   video/x-raw,format=BGRx,width=1920,height=1080 ! kmssink plane-id=43
 ```
@@ -66,8 +74,9 @@ sudo timeout 10 gst-launch-1.0 videotestsrc pattern=smpte ! \
 лежит **под** основной, а на основной висит консоль. С `plane-id=43` таблица появилась.
 `BGRx` в GStreamer соответствует `XR24` в DRM.
 
-**Подводные камни.** Порядок слоёв зависит от драйвера; мы определили его опытом, а не по
-документации.
+> [!warning] Подводные камни
+> Порядок слоёв зависит от драйвера; мы определили его опытом, а не по
+> документации.
 
 ---
 
@@ -77,8 +86,8 @@ sudo timeout 10 gst-launch-1.0 videotestsrc pattern=smpte ! \
 
 **Решение.** Замерить конвейер с `videoconvert` без экрана:
 
-```
-[плата]
+```bash
+# [плата]
 time timeout 20 stdbuf -oL gst-launch-1.0 -v filesrc location=$HOME/test/film.mkv ! parsebin \
   ! v4l2slh265dec ! video/x-raw,format=NV12 ! videoconvert n-threads=4 ! video/x-raw,format=BGRx \
   ! fpsdisplaysink text-overlay=false video-sink=fakesink sync=false > $HOME/test/run7.log 2>&1
@@ -93,8 +102,9 @@ time timeout 20 stdbuf -oL gst-launch-1.0 -v filesrc location=$HOME/test/film.mk
 буферов декодера отображается без кэша. Её мы не проверяли, но вывод от этого не зависит:
 **кадры декодера нельзя трогать процессором.**
 
-**Подводные камни.** В этом же замере сработал ещё и дефект GStreamer, который копировал
-кадры (глава 8). Он смешался с основной причиной, и мы далеко не сразу их разделили.
+> [!warning] Подводные камни
+> В этом же замере сработал ещё и дефект GStreamer, который копировал
+> кадры (глава 8). Он смешался с основной причиной, и мы далеко не сразу их разделили.
 
 ---
 
@@ -106,16 +116,16 @@ time timeout 20 stdbuf -oL gst-launch-1.0 -v filesrc location=$HOME/test/film.mk
 `waylandsink`. `cage` работает только на настоящей консоли, поэтому команды заворачиваем
 в скрипт и запускаем **с клавиатуры платы**:
 
-```
-[плата]
+```bash
+# [плата]
 sudo apt install cage
 printf '%s\n' '#!/bin/bash' \
   'cage -- timeout 15 gst-launch-1.0 -v videotestsrc pattern=smpte ! video/x-raw,width=1280,height=720 ! waylandsink > "$HOME/test/cage1.log" 2>&1' \
   > $HOME/cage1.sh && chmod +x $HOME/cage1.sh
 ```
 
-```
-[консоль платы]
+```bash
+# [консоль платы]
 ./cage1.sh
 ```
 
@@ -125,13 +135,13 @@ printf '%s\n' '#!/bin/bash' \
 1440x1080@60 пошёл с 60,0 кадра/с, без потерь, при загрузке около трети одного ядра
 (вместе с самим композитором).
 
-**Подводные камни.**
-- `cage` не стартует по SSH: ему нужен доступ к экрану через сеанс на консоли. Если вы
-  всё-таки запустили его по SSH и он завис, `pkill -9 -f 'cage --'`: обычный `pkill` с ним
-  не справился.
-- Опции `cage` проверяйте по `cage -h` своей версии: у версии из Debian 13 нет `-D`.
-- Сообщения `eglQueryDeviceStringEXT ... EGL_BAD_PARAMETER` при старте `cage` встречаются
-  и в удачных запусках.
+> [!warning] Подводные камни
+> - `cage` не стартует по SSH: ему нужен доступ к экрану через сеанс на консоли. Если вы
+>   всё-таки запустили его по SSH и он завис, `pkill -9 -f 'cage --'`: обычный `pkill` с ним
+>   не справился.
+> - Опции `cage` проверяйте по `cage -h` своей версии: у версии из Debian 13 нет `-D`.
+> - Сообщения `eglQueryDeviceStringEXT ... EGL_BAD_PARAMETER` при старте `cage` встречаются
+>   и в удачных запусках.
 
 ---
 

@@ -1,0 +1,100 @@
+/* Стили печатной версии книги (Chromium, A4). */
+@page {
+  size: A4;
+  margin: 20mm 18mm 22mm 18mm;
+  @bottom-center { content: counter(page); font: 9pt "Noto Serif", "DejaVu Serif", serif; color: #5b6770; }
+}
+@page :first { @bottom-center { content: none; } }
+
+:root {
+  --ink: #22303a;
+  --muted: #5b6770;
+  --rule: #d5dbe0;
+  --code-bg: #f4f6f8;
+  --warn: #b07a12;
+  --warn-bg: #fbf4e6;
+  --imp: #34607f;
+  --imp-bg: #e9f0f6;
+}
+
+html { font-size: 10.5pt; }
+body {
+  font-family: "Noto Serif", "PT Serif", "DejaVu Serif", "Liberation Serif", serif;
+  color: var(--ink);
+  line-height: 1.45;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  hyphens: auto;
+}
+
+/* Обложка: первая страница без полей, картинка во всю страницу. Титул pandoc скрыт,
+   он нужен только для метаданных PDF. */
+@page :first { margin: 0; }
+.cover { width: 210mm; height: 297mm; margin: 0; break-after: page; overflow: hidden; position: relative; }
+.cover-version { position: absolute; right: 17.5mm; bottom: 17mm; font: 9pt "Noto Sans", "DejaVu Sans", sans-serif; color: #7f96a6; }
+.cover img { width: 100%; height: 100%; display: block; object-fit: cover; }
+#title-block-header { display: none; }
+
+/* Содержание */
+nav#TOC { break-after: page; }
+nav#TOC h2 { font-size: 20pt; margin: 0 0 6mm; }
+nav#TOC ul { list-style: none; padding-left: 0; margin: 0; }
+nav#TOC > ul > li { margin-top: 2.5mm; font-weight: 700; }
+nav#TOC ul ul { padding-left: 6mm; font-weight: normal; font-size: 9.5pt; columns: 2; column-gap: 8mm; }
+nav#TOC a { color: var(--ink); text-decoration: none; }
+
+/* Заголовки */
+h1, h2, h3 { font-family: "Noto Sans", "DejaVu Sans", sans-serif; line-height: 1.2; break-after: avoid; }
+h1 { font-size: 20pt; break-before: page; margin: 0 0 6mm; padding-bottom: 2mm; border-bottom: 1.5pt solid var(--ink); }
+h2 { font-size: 13.5pt; margin: 7mm 0 2mm; }
+h3 { font-size: 11.5pt; margin: 5mm 0 2mm; }
+
+p, li { orphans: 3; widows: 3; }
+a { color: var(--imp); text-decoration: none; }
+hr { border: none; border-top: 0.6pt solid var(--rule); margin: 6mm 0; }
+
+/* Код */
+code { font-family: "Noto Sans Mono", "DejaVu Sans Mono", monospace; font-size: 0.86em; }
+:not(pre) > code { background: var(--code-bg); padding: 0 0.2em; border-radius: 2px; }
+pre {
+  background: var(--code-bg);
+  border-left: 2pt solid var(--rule);
+  padding: 2mm 3mm;
+  font-size: 8.3pt;
+  line-height: 1.35;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  break-inside: avoid;
+}
+pre code { font-size: inherit; background: none; padding: 0; }
+div.sourceCode { margin: 3mm 0; background: none; }
+
+/* Таблицы */
+table { border-collapse: collapse; width: 100%; margin: 3mm 0; font-size: 9.2pt; break-inside: avoid; }
+th, td { border-bottom: 0.5pt solid var(--rule); padding: 1.2mm 2mm; text-align: left; vertical-align: top; }
+th { border-bottom: 1pt solid var(--ink); }
+
+/* Рисунки */
+figure { margin: 4mm 0; text-align: center; break-inside: avoid; }
+figure img, p > img { max-width: 100%; max-height: 210mm; }
+figcaption { font-size: 9pt; color: var(--muted); margin-top: 1.5mm; }
+
+/* Врезки (callout Obsidian) */
+.callout { border-left: 2.5pt solid var(--imp); background: var(--imp-bg); padding: 2mm 4mm; margin: 4mm 0; break-inside: avoid; }
+.callout > :last-child { margin-bottom: 0; }
+.callout-title { display: block; font-family: "Noto Sans", "DejaVu Sans", sans-serif; font-weight: 700; margin-bottom: 1mm; }
+.callout-warning { border-color: var(--warn); background: var(--warn-bg); }
+.callout-warning .callout-title { color: var(--warn); }
+.callout-important .callout-title, .callout-note .callout-title { color: var(--imp); }
+.callout pre { background: #fff; }
+
+/* Внешние ссылки в списках («Где почитать», приложение В): адрес виден и на бумаге */
+li > a[href^="http"]::after {
+  content: " " attr(href);
+  display: block;
+  font-family: "Noto Sans Mono", "DejaVu Sans Mono", monospace;
+  font-size: 7.5pt;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}

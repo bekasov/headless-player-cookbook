@@ -31,7 +31,7 @@
     <text x="622" y="110" font-size="14" font-weight="700" text-anchor="middle">4. Драйверы</text>
     <text x="622" y="132" text-anchor="middle">Cedrus, sun4i-drm,</text>
     <text x="622" y="148" text-anchor="middle">Panfrost, звук.</text>
-    <text x="622" y="164" text-anchor="middle">Нет драйвера: нет функции</text>
+    <text x="622" y="164" text-anchor="middle">Без драйвера никак</text>
 
     <rect x="715" y="84" width="158" height="96" rx="6" fill="#E3ECF4" stroke="#34607F" stroke-width="1.5"/>
     <text x="794" y="110" font-size="14" font-weight="700" text-anchor="middle">5. Система</text>

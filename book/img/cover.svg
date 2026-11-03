@@ -1,0 +1,165 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 1188" width="840" height="1188" font-family="Noto Sans, DejaVu Sans, Liberation Sans, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#0B1219"/>
+      <stop offset="0.55" stop-color="#122230"/>
+      <stop offset="1" stop-color="#0A1016"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#2FB59A" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#2FB59A" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="screenGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#F2A93B" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#F2A93B" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="pcb" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#155247"/>
+      <stop offset="1" stop-color="#0C3530"/>
+    </linearGradient>
+    <linearGradient id="soc" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2A3138"/>
+      <stop offset="1" stop-color="#14181C"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E4E9ED"/>
+      <stop offset="0.5" stop-color="#AEB8C0"/>
+      <stop offset="1" stop-color="#7D8891"/>
+    </linearGradient>
+    <linearGradient id="frame" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F6C065"/>
+      <stop offset="1" stop-color="#E07B2E"/>
+    </linearGradient>
+    <filter id="blur18" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="18"/></filter>
+    <filter id="blur4" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter>
+    <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse">
+      <path d="M28 0H0V28" fill="none" stroke="#1D3442" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- фон -->
+  <rect width="840" height="1188" fill="url(#bg)"/>
+  <rect width="840" height="1188" fill="url(#grid)" opacity="0.55"/>
+  <circle cx="380" cy="800" r="380" fill="url(#halo)"/>
+  <circle cx="640" cy="470" r="230" fill="url(#screenGlow)"/>
+
+  <!-- заголовок -->
+  <rect x="70" y="112" width="56" height="5" rx="2.5" fill="#F2A93B"/>
+  <text x="70" y="196" font-size="66" font-weight="700" fill="#F4F7F9" letter-spacing="-1">Видео без экрана</text>
+  <text x="70" y="246" font-size="25" fill="#9FB3C2">Поваренная книга аппаратного декодирования</text>
+  <text x="70" y="280" font-size="25" fill="#9FB3C2">на одноплатном компьютере</text>
+
+  <!-- «экран», которого нет -->
+  <g transform="translate(486 382)">
+    <rect width="300" height="169" rx="10" fill="#F2A93B" fill-opacity="0.06" stroke="#F2A93B" stroke-width="2.5" stroke-dasharray="10 9"/>
+    <circle cx="150" cy="84" r="38" fill="#F2A93B" opacity="0.25" filter="url(#blur4)"/>
+    <circle cx="150" cy="84" r="34" fill="none" stroke="#F6C065" stroke-width="2.5"/>
+    <path d="M139 66 L168 84 L139 102 Z" fill="#F6C065"/>
+    <text x="150" y="196" font-size="15" fill="#C9A26A" text-anchor="middle" letter-spacing="3">ЭКРАН НЕ ПОДКЛЮЧЁН</text>
+  </g>
+
+  <!-- поток кадров от HDMI к экрану -->
+  <path d="M640 948 C 770 930, 790 700, 690 566" fill="none" stroke="#F2A93B" stroke-width="2" stroke-dasharray="3 7" opacity="0.7"/>
+  <g fill="url(#frame)">
+    <rect x="712" y="866" width="36" height="23" rx="3" opacity="0.95" transform="rotate(-62 730 877)"/>
+    <rect x="740" y="746" width="32" height="20" rx="3" opacity="0.75" transform="rotate(-82 756 756)"/>
+    <rect x="726" y="636" width="28" height="18" rx="3" opacity="0.55" transform="rotate(-112 740 645)"/>
+  </g>
+
+  <!-- плата -->
+  <g transform="translate(380 820) rotate(-8)">
+    <rect x="-262" y="-168" width="524" height="366" rx="22" fill="#000" opacity="0.55" filter="url(#blur18)" transform="translate(14 26)"/>
+    <rect x="-260" y="-180" width="520" height="360" rx="20" fill="url(#pcb)" stroke="#2C8270" stroke-width="2"/>
+
+    <!-- дорожки -->
+    <g fill="none" stroke="#D4AF5A" stroke-width="1.6" opacity="0.38" stroke-linecap="round">
+      <path d="M-20 -80 V-120 H-120 V-150"/>
+      <path d="M0 -80 V-110 H60 V-150"/>
+      <path d="M20 -80 V-100 H140 V-150"/>
+      <path d="M-90 -40 H-150 V-30 H-170"/>
+      <path d="M-90 0 H-160 V60 H-180"/>
+      <path d="M50 -20 H85"/>
+      <path d="M50 10 H85"/>
+      <path d="M-20 60 V120 H40 V150"/>
+      <path d="M10 60 V100 H130 V60 H220"/>
+      <path d="M-50 60 V130 H-60 V160"/>
+      <path d="M190 -60 H230 V-110"/>
+    </g>
+    <g fill="#D4AF5A" opacity="0.55">
+      <circle cx="-120" cy="-150" r="3"/><circle cx="60" cy="-150" r="3"/><circle cx="140" cy="-150" r="3"/>
+      <circle cx="-170" cy="-30" r="3"/><circle cx="-180" cy="60" r="3"/><circle cx="220" cy="60" r="3"/>
+      <circle cx="230" cy="-110" r="3"/><circle cx="-60" cy="160" r="3"/>
+    </g>
+
+    <!-- крепёжные отверстия -->
+    <g fill="#0B1219" stroke="#D4AF5A" stroke-width="4">
+      <circle cx="-228" cy="-148" r="10"/><circle cx="228" cy="-148" r="10"/>
+      <circle cx="-228" cy="148" r="10"/><circle cx="228" cy="148" r="10"/>
+    </g>
+
+    <!-- гребёнка GPIO 2x13 -->
+    <rect x="-176" y="-170" width="320" height="44" rx="4" fill="#111518"/>
+    <g fill="#E3C46F">
+      <rect x="-166" y="-162" width="8" height="8"/><rect x="-142" y="-162" width="8" height="8"/><rect x="-118" y="-162" width="8" height="8"/><rect x="-94" y="-162" width="8" height="8"/><rect x="-70" y="-162" width="8" height="8"/><rect x="-46" y="-162" width="8" height="8"/><rect x="-22" y="-162" width="8" height="8"/><rect x="2" y="-162" width="8" height="8"/><rect x="26" y="-162" width="8" height="8"/><rect x="50" y="-162" width="8" height="8"/><rect x="74" y="-162" width="8" height="8"/><rect x="98" y="-162" width="8" height="8"/><rect x="122" y="-162" width="8" height="8"/>
+      <rect x="-166" y="-142" width="8" height="8"/><rect x="-142" y="-142" width="8" height="8"/><rect x="-118" y="-142" width="8" height="8"/><rect x="-94" y="-142" width="8" height="8"/><rect x="-70" y="-142" width="8" height="8"/><rect x="-46" y="-142" width="8" height="8"/><rect x="-22" y="-142" width="8" height="8"/><rect x="2" y="-142" width="8" height="8"/><rect x="26" y="-142" width="8" height="8"/><rect x="50" y="-142" width="8" height="8"/><rect x="74" y="-142" width="8" height="8"/><rect x="98" y="-142" width="8" height="8"/><rect x="122" y="-142" width="8" height="8"/>
+    </g>
+
+    <!-- SoC -->
+    <rect x="-92" y="-82" width="144" height="144" rx="8" fill="#0A0D10" opacity="0.6" transform="translate(4 6)"/>
+    <rect x="-92" y="-82" width="144" height="144" rx="8" fill="url(#soc)" stroke="#434D57" stroke-width="1.5"/>
+    <rect x="-80" y="-70" width="120" height="120" rx="5" fill="none" stroke="#2F3740" stroke-width="1"/>
+    <circle cx="-74" cy="-64" r="4" fill="#3C454E"/>
+    <text x="-20" y="-2" font-family="DejaVu Sans Mono, Noto Sans Mono, monospace" font-size="22" font-weight="700" fill="#8E9AA4" text-anchor="middle">H616</text>
+    <text x="-20" y="22" font-family="DejaVu Sans Mono, Noto Sans Mono, monospace" font-size="11" fill="#5E6A74" text-anchor="middle">VPU · GPU · 4×A53</text>
+
+    <!-- память -->
+    <rect x="86" y="-70" width="92" height="118" rx="5" fill="#15191D" stroke="#353E46" stroke-width="1.5"/>
+    <rect x="98" y="-58" width="68" height="94" rx="3" fill="none" stroke="#262D33"/>
+
+    <!-- мелкие компоненты -->
+    <g fill="#C7A25A" opacity="0.9">
+      <rect x="-150" y="-100" width="12" height="6" rx="1"/><rect x="-150" y="-86" width="12" height="6" rx="1"/>
+      <rect x="-130" y="80" width="12" height="6" rx="1"/><rect x="-112" y="80" width="12" height="6" rx="1"/>
+      <rect x="70" y="80" width="6" height="12" rx="1"/><rect x="82" y="80" width="6" height="12" rx="1"/>
+      <rect x="190" y="-30" width="12" height="6" rx="1"/><rect x="190" y="-16" width="12" height="6" rx="1"/>
+    </g>
+    <g fill="#2B3238">
+      <rect x="-150" y="20" width="26" height="20" rx="2"/><rect x="110" y="80" width="30" height="24" rx="2"/>
+      <rect x="196" y="10" width="22" height="22" rx="2"/>
+    </g>
+
+    <!-- светодиоды -->
+    <circle cx="200" cy="-130" r="9" fill="#46E0A8" opacity="0.5" filter="url(#blur4)"/>
+    <circle cx="200" cy="-130" r="4" fill="#7CF5C6"/>
+    <circle cx="222" cy="-130" r="9" fill="#FF5A4E" opacity="0.45" filter="url(#blur4)"/>
+    <circle cx="222" cy="-130" r="4" fill="#FF8A80"/>
+
+    <!-- Ethernet и USB-A слева -->
+    <rect x="-292" y="-74" width="118" height="104" rx="5" fill="url(#metal)" stroke="#5E6A74"/>
+    <rect x="-282" y="-52" width="70" height="60" rx="3" fill="#1A1F24"/>
+    <rect x="-262" y="-60" width="30" height="10" fill="#1A1F24"/>
+    <rect x="-282" y="52" width="92" height="66" rx="4" fill="url(#metal)" stroke="#5E6A74"/>
+    <rect x="-272" y="66" width="62" height="38" rx="2" fill="#1A1F24"/>
+    <rect x="-266" y="78" width="50" height="12" fill="#2E6BB0"/>
+
+    <!-- USB-C и micro-HDMI снизу, microSD справа -->
+    <rect x="-40" y="168" width="54" height="22" rx="11" fill="url(#metal)" stroke="#5E6A74"/>
+    <rect x="-30" y="175" width="34" height="8" rx="4" fill="#1A1F24"/>
+    <path d="M180 166 H246 L240 190 H186 Z" fill="url(#metal)" stroke="#5E6A74"/>
+    <path d="M190 172 H236 L232 184 H194 Z" fill="#1A1F24"/>
+    <rect x="248" y="-110" width="26" height="74" rx="3" fill="url(#metal)" stroke="#5E6A74"/>
+
+    <!-- подписи на шелкографии -->
+    <g font-family="DejaVu Sans Mono, Noto Sans Mono, monospace" font-size="10" fill="#9FD8C6" opacity="0.75">
+      <text x="196" y="160" text-anchor="middle">HDMI</text>
+      <text x="-13" y="160" text-anchor="middle">5V</text>
+      <text x="-225" y="44">LAN</text>
+      <text x="236" y="-20" text-anchor="end">SD</text>
+    </g>
+  </g>
+
+  <!-- подвал -->
+  <line x1="70" y1="1064" x2="770" y2="1064" stroke="#2A3E4C" stroke-width="1"/>
+  <text x="70" y="1100" font-size="20" fill="#E6ECF0">Claude Code · Геннадий Бекасов</text>
+  <text x="70" y="1132" font-size="15" fill="#7F96A6">Orange Pi Zero2 · Allwinner H616 · Armbian · GStreamer</text>
+</svg>

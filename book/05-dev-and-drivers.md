@@ -1,3 +1,10 @@
+---
+aliases:
+  - Глава 5
+tags:
+  - книга/глава
+---
+
 # Глава 5. `/dev`, драйверы и видит ли ядро декодер
 
 Это первая глава, где мы говорим с железом. Новичку она даст карту местности, опытному
@@ -11,15 +18,15 @@
 
 **Решение.**
 
-```
-[плата]
+```bash
+# [плата]
 ls -l /dev/video* /dev/media* /dev/dri/*
 id
 ```
 
 Пример:
 
-```
+```text
 crw-rw---- 1 root video 81, 0 /dev/video0
 crw-rw---- 1 root video 248, 0 /dev/media0
 ```
@@ -45,6 +52,15 @@ crw-rw---- 1 root video 248, 0 /dev/media0
 
 ![Видеостек Linux](img/05-video-stack.svg)
 
+> [!warning] Подводные камни
+> Номера `card0` и `card1` раздаются в порядке загрузки драйверов и после обновления
+> ядра могут поменяться местами. Кто есть кто, покажет драйвер устройства:
+>
+> ```bash
+> # [плата]
+> grep -H DRIVER /sys/class/drm/card?/device/uevent
+> ```
+
 ---
 
 ## Рецепт 5.2. Узнать, видит ли ядро аппаратный декодер
@@ -53,8 +69,8 @@ crw-rw---- 1 root video 248, 0 /dev/media0
 
 **Решение.**
 
-```
-[плата]
+```bash
+# [плата]
 ls -l /dev/video* /dev/media*
 lsmod | grep -i cedrus
 sudo dmesg | grep -i -E 'cedrus|video.engine'
@@ -63,7 +79,7 @@ ls /proc/device-tree/soc/ | grep -i video
 
 Ответ стенда:
 
-```
+```text
 /dev/media0  /dev/video0
 (lsmod пусто)
 [    1.680487] cedrus 1c0e000.video-codec: Device registered as /dev/video0
@@ -78,8 +94,9 @@ video-codec@1c0e000
    говорит, что драйвер встроен в ядро. Пустой `lsmod` не означает отсутствия драйвера.
 4. **Файл устройства** (`/dev/video0`): дверь открыта для программ.
 
-**Подводные камни.** Если узел в device-tree есть, а `/dev/video0` нет, значит, нет драйвера.
-Если нет и узла, видеоблок в этом ядре не описан, и никакие программы не помогут.
+> [!warning] Подводные камни
+> Если узел в device-tree есть, а `/dev/video0` нет, значит, нет драйвера.
+> Если нет и узла, видеоблок в этом ядре не описан, и никакие программы не помогут.
 
 ---
 
@@ -89,8 +106,8 @@ video-codec@1c0e000
 
 **Решение.**
 
-```
-[плата]
+```bash
+# [плата]
 sudo apt install v4l-utils
 v4l2-ctl -d /dev/video0 --list-formats-out-ext
 v4l2-ctl -d /dev/video0 --list-formats-ext
@@ -98,7 +115,7 @@ v4l2-ctl -d /dev/video0 --list-formats-ext
 
 Вход декодера (что он принимает):
 
-```
+```text
 Type: Video Output
 [0]: 'MG2S' (MPEG-2 Parsed Slice Data, compressed)
 [1]: 'S264' (H.264 Parsed Slice Data, compressed)
@@ -108,7 +125,7 @@ Type: Video Output
 
 Выход (в чём отдаёт кадры):
 
-```
+```text
 Type: Video Capture
 [0]: 'AS01' (10-bit YUV 4:2:0 (AFBC 16x16), compressed)
 [1]: 'AS12' (YUV 4:2:0 (AFBC 16x16), compressed)
@@ -122,8 +139,9 @@ Type: Video Capture
 (Capture) из него кадры. Нам важна строка `S265` на входе: декодер принимает H.265.
 На выходе есть обычный `NV12`, «плиточный» формат Allwinner `ST12` и сжатые AFBC.
 
-**Подводные камни.** Команда `--list-formats-ext` без `-out` показывает только выход.
-Если ограничиться ею, легко решить, что H.265 «нет в списке».
+> [!warning] Подводные камни
+> Команда `--list-formats-ext` без `-out` показывает только выход.
+> Если ограничиться ею, легко решить, что H.265 «нет в списке».
 
 ---
 
@@ -133,8 +151,8 @@ Type: Video Capture
 
 **Решение.**
 
-```
-[плата]
+```bash
+# [плата]
 v4l2-ctl -d /dev/video0 --list-ctrls
 ```
 
@@ -142,8 +160,11 @@ v4l2-ctl -d /dev/video0 --list-ctrls
 `hevc_picture_parameter_set`, `hevc_slice_parameters`, `hevc_decode_mode` и подобные. Их
 наличие означает, что драйвер выставляет интерфейс декодирования HEVC. Пометки
 `unsupported payload type` это не ошибка: так `v4l2-ctl` обозначает составные структуры,
-которые он не умеет печатать. Отсутствие контроллов VP9 и AV1 говорит, что их декодер
-аппаратно не поддерживает.
+которые он не умеет печатать. Отсутствие контроллов VP9 и AV1 значит, что их не
+поддерживает драйвер Cedrus. Это не всегда то же самое, что «не умеет чип»: у некоторых
+чипов Allwinner VP9 декодирует отдельный блок со своим драйвером и своим `/dev/videoN`
+(у H6 это Hantro G2; общее знание, не проверяли). На нашем стенде другого видеоустройства
+нет (рецепт 5.2).
 
 ---
 
@@ -167,8 +188,8 @@ v4l2-ctl -d /dev/video0 --list-ctrls
 На стенде пакетный mpv 0.40 из Debian 13 показал среди методов только `v4l2m2m-copy`, а
 `v4l2request` не было. Поэтому mpv аппаратно декодировать не стал, а GStreamer смог.
 
-```
-[плата]
+```bash
+# [плата]
 mpv --hwdec=help | grep -iE 'v4l2|drm'
 ```
 
@@ -182,8 +203,8 @@ the selected stream»).
 **Решение.** Включить журнал вызовов `ioctl` видеоустройства, повторить ошибку и выключить
 журнал:
 
-```
-[плата]
+```bash
+# [плата]
 echo 0xff | sudo tee /sys/class/video4linux/video0/dev_debug
 # повторить действие, которое даёт ошибку
 sudo dmesg | grep video0 | grep -iE 'ext_ctrls|error|-22' | tail -n 15
@@ -194,7 +215,8 @@ echo 0 | sudo tee /sys/class/video4linux/video0/dev_debug
 ядро писать в журнал все вызовы и их результаты. Код `-22` это `EINVAL`, «неверный
 аргумент», а строка с `VIDIOC_S_EXT_CTRLS` покажет, какой контролл был отвергнут.
 
-**Подводные камни.** Не забудьте выключить журнал: на 0xff он очень разговорчив.
+> [!warning] Подводные камни
+> Не забудьте выключить журнал: на 0xff он очень разговорчив.
 
 ---
 
@@ -210,7 +232,7 @@ echo 0 | sudo tee /sys/class/video4linux/video0/dev_debug
 - [Ядро: интерфейс декодеров без состояния](https://docs.kernel.org/userspace-api/media/v4l/dev-stateless-decoder.html)
 - [Ядро: сжатые форматы V4L2](https://docs.kernel.org/userspace-api/media/v4l/pixfmt-compressed.html)
 - [Ядро: отладка медиаподсистемы](https://docs.kernel.org/process/debugging/media_specific_debugging_guide.html)
-- [linux-sunxi: Cedrus](https://linux-sunxi.org/Cedrus)
+- [Ядро: исходники драйвера Cedrus](https://github.com/torvalds/linux/tree/master/drivers/staging/media/sunxi/cedrus)
 
 ---
 
