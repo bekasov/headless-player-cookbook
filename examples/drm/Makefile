@@ -3,7 +3,7 @@
 CFLAGS ?= -O2 -g -Wall -Wextra
 CPPFLAGS += -std=gnu11 -D_FILE_OFFSET_BITS=64 $(shell pkg-config --cflags libdrm)
 LDLIBS += $(shell pkg-config --libs libdrm)
-PROGS = drm-info drm-line drm-nv12
+PROGS = drm-info drm-line drm-nv12 drm-atomic
 
 all: $(PROGS)
 

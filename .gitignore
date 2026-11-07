@@ -11,3 +11,4 @@ __pycache__/
 examples/drm/drm-info
 examples/drm/drm-line
 examples/drm/drm-nv12
+examples/drm/drm-atomic

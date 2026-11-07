@@ -9,9 +9,10 @@ tags:
 # Глава 12. Практикум: экран своими руками на C
 
 В главе 7 кадры на экран клал `kmssink`, а мы смотрели на него снаружи: подписи, журналы,
-ошибки ядра. Здесь мы сделаем то же самое сами, тремя короткими программами на C. Первая
+ошибки ядра. Здесь мы сделаем то же самое сами, четырьмя короткими программами на C. Первая
 спрашивает дисплей, что у него есть. Вторая рисует линии в RGB-буфере и кладёт его на
 плоскость поверх консоли. Третья делает то же с кадром в YUV, как его выдаёт видеодвижок.
+Четвёртая меняет кадры по обновлению экрана через атомарный API, как это делает плеер.
 
 После этой главы слова «плоскость», «fourcc», «шаг строки» и «владелец экрана» станут
 строчками кода, которые можно поменять и посмотреть, что выйдет.
@@ -311,7 +312,7 @@ struct dumb {
 	uint8_t *map;            /* буфер, отображённый в память программы */
 };
 
-static long long prop_value(int fd, uint32_t obj, uint32_t obj_type, const char *name)
+static inline long long prop_value(int fd, uint32_t obj, uint32_t obj_type, const char *name)
 {
 	drmModeObjectPropertiesPtr props = drmModeObjectGetProperties(fd, obj, obj_type);
 	long long val = -1;
@@ -327,7 +328,7 @@ static long long prop_value(int fd, uint32_t obj, uint32_t obj_type, const char 
 }
 
 /* Открыть устройство и найти CRTC, который сейчас что-то показывает (обычно консоль). */
-static void screen_open(struct screen *s, const char *path)
+static inline void screen_open(struct screen *s, const char *path)
 {
 	s->fd = open(path, O_RDWR | O_CLOEXEC);
 	if (s->fd < 0)
@@ -356,7 +357,7 @@ static void screen_open(struct screen *s, const char *path)
 
 /* Плоскость для нашего CRTC, которая принимает формат. Если номер задан, только проверяем
  * его. Иначе берём оверлей с наибольшим zpos: он лежит выше консоли. */
-static uint32_t pick_plane(struct screen *s, uint32_t wanted, uint32_t format)
+static inline uint32_t pick_plane(struct screen *s, uint32_t wanted, uint32_t format)
 {
 	drmModePlaneResPtr pres = drmModeGetPlaneResources(s->fd);
 	uint32_t best = 0;
@@ -396,7 +397,7 @@ static uint32_t pick_plane(struct screen *s, uint32_t wanted, uint32_t format)
 }
 
 /* Буфер в памяти, к которому есть доступ и у программы, и у дисплея (man drm-memory). */
-static void dumb_create(int fd, uint32_t w, uint32_t h, uint32_t bpp, struct dumb *d)
+static inline void dumb_create(int fd, uint32_t w, uint32_t h, uint32_t bpp, struct dumb *d)
 {
 	struct drm_mode_create_dumb create = { .width = w, .height = h, .bpp = bpp };
 	if (drmIoctl(fd, DRM_IOCTL_MODE_CREATE_DUMB, &create))
@@ -407,7 +408,7 @@ static void dumb_create(int fd, uint32_t w, uint32_t h, uint32_t bpp, struct dum
 		DIE("DRM_IOCTL_MODE_MAP_DUMB: %s", strerror(errno));
 
 	/* Ядро дало не адрес, а «смещение» для mmap по этому же файлу устройства. */
-	d->map = mmap(NULL, create.size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, (off_t)map.offset);
+	d->map = mmap(NULL, (size_t)create.size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, (off_t)map.offset);
 	if (d->map == MAP_FAILED)
 		DIE("mmap: %s", strerror(errno));
 	d->handle = create.handle;
@@ -415,16 +416,16 @@ static void dumb_create(int fd, uint32_t w, uint32_t h, uint32_t bpp, struct dum
 	d->size = create.size;
 }
 
-static void dumb_destroy(int fd, struct dumb *d)
+static inline void dumb_destroy(int fd, struct dumb *d)
 {
 	struct drm_mode_destroy_dumb destroy = { .handle = d->handle };
 
-	munmap(d->map, d->size);
+	munmap(d->map, (size_t)d->size);
 	drmIoctl(fd, DRM_IOCTL_MODE_DESTROY_DUMB, &destroy);
 }
 
 /* Показать кадр fb размером w x h по центру экрана на несколько секунд и убрать. */
-static void show(struct screen *s, uint32_t plane, uint32_t fb, uint32_t w, uint32_t h, int seconds)
+static inline void show(struct screen *s, uint32_t plane, uint32_t fb, uint32_t w, uint32_t h, int seconds)
 {
 	int x = ((int)s->width - (int)w) / 2, y = ((int)s->height - (int)h) / 2;
 
@@ -713,6 +714,226 @@ strace -e trace=ioctl ./drm-info 2>&1 | head -n 15
 
 ---
 
+## Рецепт 12.6. Сменить кадр без разрывов: атомарный API
+
+**Уровень:** ★★★ продвинутый
+
+**Задача.** Показывать кадры один за другим так, чтобы смена происходила ровно на обновлении
+экрана, без разрывов картинки, и измерить, сколько времени проходит между сменами.
+
+**Решение.** Программа `drm-atomic.c`: по прямоугольнику бежит белая полоса, каждый кадр
+это один атомарный коммит.
+
+```c
+// examples/drm/drm-atomic.c
+// Анимация через атомарный API: два буфера, смена кадра одним коммитом по обновлению
+// экрана и замер интервала между сменами. Без разрывов картинки.
+// Запуск с консоли платы: ./drm-atomic [/dev/dri/card0] [номер плоскости] [секунды]
+#include <poll.h>
+#include "drm-common.h"
+
+#define W 640
+#define H 360
+#define BAR 24  /* ширина полосы: на разрыве кадра она ломается, это сразу видно */
+
+enum { FB_ID, CRTC_ID, SRC_X, SRC_Y, SRC_W, SRC_H, CRTC_X, CRTC_Y, CRTC_W, CRTC_H, NPROPS };
+static const char *prop_names[NPROPS] = {
+	"FB_ID", "CRTC_ID", "SRC_X", "SRC_Y", "SRC_W", "SRC_H",
+	"CRTC_X", "CRTC_Y", "CRTC_W", "CRTC_H",
+};
+
+struct flip_state {
+	int pending;               /* коммит отправлен, событие ещё не пришло */
+	long long last_us;         /* время предыдущей смены кадра */
+	long long sum_us, min_us, max_us;
+	int count;
+};
+
+/* В атомарном API всё задаётся свойствами, а свойство ищут по имени и получают его id. */
+static uint32_t prop_id(int fd, uint32_t obj, uint32_t obj_type, const char *name)
+{
+	drmModeObjectPropertiesPtr props = drmModeObjectGetProperties(fd, obj, obj_type);
+	uint32_t id = 0;
+
+	for (uint32_t i = 0; props && i < props->count_props && !id; i++) {
+		drmModePropertyPtr p = drmModeGetProperty(fd, props->props[i]);
+		if (p && strcmp(p->name, name) == 0)
+			id = p->prop_id;
+		drmModeFreeProperty(p);
+	}
+	drmModeFreeObjectProperties(props);
+	if (!id)
+		DIE("у объекта %u нет свойства %s", obj, name);
+	return id;
+}
+
+/* Ядро зовёт эту функцию из drmHandleEvent, когда коммит показан на экране. */
+static void on_flip(int fd, unsigned int seq, unsigned int sec, unsigned int usec, void *data)
+{
+	struct flip_state *st = data;
+	long long now = (long long)sec * 1000000 + usec;
+
+	(void)fd;
+	(void)seq;
+	if (st->last_us) {
+		long long d = now - st->last_us;
+		st->sum_us += d;
+		st->min_us = st->count && st->min_us < d ? st->min_us : d;
+		st->max_us = st->max_us > d ? st->max_us : d;
+		st->count++;
+	}
+	st->last_us = now;
+	st->pending = 0;
+}
+
+static void draw(struct dumb *d, int bar_x)
+{
+	for (int y = 0; y < H; y++) {
+		uint32_t *row = (uint32_t *)(d->map + (size_t)y * d->pitch);
+		for (int x = 0; x < W; x++)
+			row[x] = x >= bar_x && x < bar_x + BAR ? 0x00FFFFFF : 0x00202830;
+	}
+}
+
+int main(int argc, char **argv)
+{
+	struct screen s;
+	struct dumb buf[2];
+	uint32_t fb[2], prop[NPROPS];
+	struct flip_state st = { 0 };
+	drmEventContext ev = { .version = 2, .page_flip_handler = on_flip };
+
+	screen_open(&s, argc > 1 ? argv[1] : "/dev/dri/card0");
+	if (drmSetClientCap(s.fd, DRM_CLIENT_CAP_ATOMIC, 1))
+		DIE("драйвер не поддерживает атомарный API: %s", strerror(errno));
+	if (s.width < W || s.height < H)
+		DIE("экран %ux%u меньше кадра %dx%d", s.width, s.height, W, H);
+	uint32_t plane = pick_plane(&s, argc > 2 ? (uint32_t)strtoul(argv[2], NULL, 0) : 0,
+				    DRM_FORMAT_XRGB8888);
+	int seconds = argc > 3 ? atoi(argv[3]) : 5;
+	int frames = seconds * 60;  /* примерно секунды при 60 Гц; время меряем по событиям */
+
+	for (int i = 0; i < NPROPS; i++)
+		prop[i] = prop_id(s.fd, plane, DRM_MODE_OBJECT_PLANE, prop_names[i]);
+
+	/* Два буфера: в один рисуем, пока другой на экране. */
+	for (int i = 0; i < 2; i++) {
+		uint32_t handles[4] = { 0 }, pitches[4] = { 0 }, offsets[4] = { 0 };
+		dumb_create(s.fd, W, H, 32, &buf[i]);
+		handles[0] = buf[i].handle;
+		pitches[0] = buf[i].pitch;
+		if (drmModeAddFB2(s.fd, W, H, DRM_FORMAT_XRGB8888, handles, pitches, offsets, &fb[i], 0))
+			DIE("drmModeAddFB2: %s", strerror(errno));
+	}
+
+	uint64_t val[NPROPS] = {
+		[CRTC_ID] = s.crtc_id,
+		[SRC_W] = (uint64_t)W << 16, [SRC_H] = (uint64_t)H << 16,  /* 16.16, как в 12.3 */
+		[CRTC_X] = (s.width - W) / 2, [CRTC_Y] = (s.height - H) / 2,
+		[CRTC_W] = W, [CRTC_H] = H,
+	};
+
+	for (int n = 0; n < frames; n++) {
+		struct dumb *back = &buf[n & 1];
+		drmModeAtomicReqPtr req = drmModeAtomicAlloc();
+
+		draw(back, (n * 8) % (W - BAR));
+		val[FB_ID] = fb[n & 1];
+		/* Первый коммит задаёт всё: плоскость, CRTC, прямоугольники. Дальше меняем только
+		 * буфер; остальное ядро помнит. */
+		for (int i = 0; i < (n == 0 ? NPROPS : 1); i++)
+			drmModeAtomicAddProperty(req, plane, prop[i], val[i]);
+
+		/* Сначала спросить, примет ли железо такую настройку, ничего не показывая. */
+		if (n == 0 && drmModeAtomicCommit(s.fd, req, DRM_MODE_ATOMIC_TEST_ONLY, NULL))
+			DIE("проверка TEST_ONLY: %s (формат, размер или плоскость не подходят)", strerror(errno));
+		if (drmModeAtomicCommit(s.fd, req, DRM_MODE_ATOMIC_NONBLOCK | DRM_MODE_PAGE_FLIP_EVENT, &st))
+			DIE("drmModeAtomicCommit: %s", strerror(errno));
+		drmModeAtomicFree(req);
+
+		/* Ждём события «кадр показан». Только после него старый буфер свободен. */
+		st.pending = 1;
+		while (st.pending) {
+			struct pollfd p = { .fd = s.fd, .events = POLLIN };
+			if (poll(&p, 1, 1000) <= 0)
+				DIE("за секунду не пришло событие смены кадра");
+			drmHandleEvent(s.fd, &ev);
+		}
+	}
+
+	if (st.count)
+		printf("смен кадра: %d, интервал: средний %.2f мс, минимум %.2f, максимум %.2f\n",
+		       st.count, (double)st.sum_us / 1000.0 / st.count, (double)st.min_us / 1000.0,
+		       (double)st.max_us / 1000.0);
+
+	/* Убрать плоскость с экрана: без буфера и без CRTC. Блокирующий коммит. */
+	drmModeAtomicReqPtr off = drmModeAtomicAlloc();
+	drmModeAtomicAddProperty(off, plane, prop[FB_ID], 0);
+	drmModeAtomicAddProperty(off, plane, prop[CRTC_ID], 0);
+	if (drmModeAtomicCommit(s.fd, off, 0, NULL))
+		fprintf(stderr, "не удалось убрать плоскость: %s\n", strerror(errno));
+	drmModeAtomicFree(off);
+
+	for (int i = 0; i < 2; i++) {
+		drmModeRmFB(s.fd, fb[i]);
+		dumb_destroy(s.fd, &buf[i]);
+	}
+	close(s.fd);
+	return 0;
+}
+```
+
+```bash
+# [консоль платы]
+cd ~/drm && make
+./drm-atomic /dev/dri/card0 43     # основной стенд, H616
+./drm-atomic /dev/dri/card0 37     # второй стенд, A20
+```
+
+Ожидаемо: полоса бежит плавно и нигде не ломается, а в конце печатается строка вида
+`смен кадра: 299, интервал: средний 16.67 мс, ...`: при 60 Гц одна смена на каждое
+обновление экрана. Это ожидание, на стендах программа не запускалась.
+
+**Как это работает.**
+
+- **Чем атомарный API отличается от рецепта 12.3.** `drmModeSetPlane` меняет одну плоскость
+  и сразу. В атомарном API собирают заявку из любых свойств любых объектов
+  (`drmModeAtomicAlloc`, `drmModeAtomicAddProperty`) и применяют её одним вызовом целиком:
+  либо всё, либо ничего. Отсюда слово «атомарный».
+- **Всё задаётся свойствами.** У плоскости это `FB_ID` (какой буфер), `CRTC_ID` (к какому
+  CRTC), `SRC_*` (часть буфера, в формате 16.16) и `CRTC_*` (место на экране): те же числа,
+  что были аргументами `drmModeSetPlane`. Свойства находят по имени и берут их номер.
+  Свойства атомарного API программа видит только после `DRM_CLIENT_CAP_ATOMIC`.
+- **`DRM_MODE_ATOMIC_TEST_ONLY`** проверяет заявку, ничего не показывая. Плееру это удобно:
+  до первого кадра узнать, примет ли плоскость формат. Описание флага есть в `drm_mode.h`.
+- **`NONBLOCK` и `PAGE_FLIP_EVENT`.** Вызов возвращается сразу, а когда кадр действительно
+  показан, ядро кладёт в файл устройства событие со временем. `poll` ждёт его, а
+  `drmHandleEvent` разбирает и вызывает `on_flip`.
+- **Два буфера.** Рисуем в тот, что не на экране, и отдаём его коммитом. Пока событие не
+  пришло, старый буфер ещё может читаться дисплеем; после события он свободен. Если рисовать в
+  буфер, который сейчас показывается, верх экрана покажет старый кадр, низ новый, и полоса
+  переломится: это и есть разрыв.
+- **Связь с рецептом 7.9.** Атомарный коммит сам ждёт ближайшего обновления экрана. Один
+  коммит на кадр даёт одну смену за обновление (16,7 мс при 60 Гц). Лишние ожидания сверху,
+  как у `kmssink` без `skip-vsync`, только пропускают обновления: 20 кадров/с там это одна
+  смена на три обновления.
+- **Без `ALLOW_MODESET`.** Мы меняем только плоскость на уже работающем CRTC, режим экрана не
+  трогаем. Смена разрешения потребовала бы этого флага (комментарий к нему в `drm_mode.h`).
+- **Половина плеера.** Если вместо `draw()` брать кадр видеодвижка (рецепт 12.4, последний
+  абзац), этот цикл станет выводом видео без копий.
+
+> [!warning] Подводные камни
+> - Новый коммит до прихода события вернёт `Device or resource busy`: предыдущий ещё не
+>   показан. Ждите событие.
+> - Если драйвер не поддерживает атомарный API, программа скажет об этом сразу после
+>   `drmSetClientCap`.
+> - Число кадров программа считает из 60 Гц; на другом режиме длительность изменится, но
+>   интервалы по событиям покажут правду.
+> - Если событие не пришло за секунду, программа остановится: обычно это выключенный экран
+>   или чужой CRTC.
+
+---
+
 ## Упражнения
 
 1. Нарисуйте окружность (алгоритм средней точки) и залейте её.
@@ -720,8 +941,8 @@ strace -e trace=ioctl ./drm-info 2>&1 | head -n 15
    экране знаковые. Что скажет драйвер?
 3. Попросите масштабирование: источник 640x360, на экране 1280x720. На какой плате это
    сработает?
-4. Сделайте анимацию: два буфера и переключение между ними. Почему без ожидания обновления
-   экрана картинка рвётся, и как это связано с рецептом 7.9?
+4. В `drm-atomic.c` рисуйте всегда в один и тот же буфер, который на экране. Как выглядит
+   разрыв? Затем уберите ожидание события: что вернёт следующий коммит?
 5. Большой шаг: замените свой буфер кадром видеодвижка через DMABuf и `drmPrimeFDToHandle`.
    Это уже ядро своего маленького плеера.
 
@@ -735,6 +956,8 @@ strace -e trace=ioctl ./drm-info 2>&1 | head -n 15
 3. Почему адрес точки считают через `pitch`, а не через ширину?
 4. Почему программа работает с консоли, но не при запущенном `cage`?
 5. Что нужно поменять в `drm-nv12.c`, чтобы показать кадр прямо из видеодвижка?
+6. Что значит «атомарный» в названии API?
+7. Зачем в `drm-atomic.c` два буфера и почему рисовать можно только после события?
 
 ## Где почитать
 

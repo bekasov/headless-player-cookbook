@@ -31,7 +31,7 @@ struct dumb {
 	uint8_t *map;            /* буфер, отображённый в память программы */
 };
 
-static long long prop_value(int fd, uint32_t obj, uint32_t obj_type, const char *name)
+static inline long long prop_value(int fd, uint32_t obj, uint32_t obj_type, const char *name)
 {
 	drmModeObjectPropertiesPtr props = drmModeObjectGetProperties(fd, obj, obj_type);
 	long long val = -1;
@@ -47,7 +47,7 @@ static long long prop_value(int fd, uint32_t obj, uint32_t obj_type, const char 
 }
 
 /* Открыть устройство и найти CRTC, который сейчас что-то показывает (обычно консоль). */
-static void screen_open(struct screen *s, const char *path)
+static inline void screen_open(struct screen *s, const char *path)
 {
 	s->fd = open(path, O_RDWR | O_CLOEXEC);
 	if (s->fd < 0)
@@ -76,7 +76,7 @@ static void screen_open(struct screen *s, const char *path)
 
 /* Плоскость для нашего CRTC, которая принимает формат. Если номер задан, только проверяем
  * его. Иначе берём оверлей с наибольшим zpos: он лежит выше консоли. */
-static uint32_t pick_plane(struct screen *s, uint32_t wanted, uint32_t format)
+static inline uint32_t pick_plane(struct screen *s, uint32_t wanted, uint32_t format)
 {
 	drmModePlaneResPtr pres = drmModeGetPlaneResources(s->fd);
 	uint32_t best = 0;
@@ -116,7 +116,7 @@ static uint32_t pick_plane(struct screen *s, uint32_t wanted, uint32_t format)
 }
 
 /* Буфер в памяти, к которому есть доступ и у программы, и у дисплея (man drm-memory). */
-static void dumb_create(int fd, uint32_t w, uint32_t h, uint32_t bpp, struct dumb *d)
+static inline void dumb_create(int fd, uint32_t w, uint32_t h, uint32_t bpp, struct dumb *d)
 {
 	struct drm_mode_create_dumb create = { .width = w, .height = h, .bpp = bpp };
 	if (drmIoctl(fd, DRM_IOCTL_MODE_CREATE_DUMB, &create))
@@ -127,7 +127,7 @@ static void dumb_create(int fd, uint32_t w, uint32_t h, uint32_t bpp, struct dum
 		DIE("DRM_IOCTL_MODE_MAP_DUMB: %s", strerror(errno));
 
 	/* Ядро дало не адрес, а «смещение» для mmap по этому же файлу устройства. */
-	d->map = mmap(NULL, create.size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, (off_t)map.offset);
+	d->map = mmap(NULL, (size_t)create.size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, (off_t)map.offset);
 	if (d->map == MAP_FAILED)
 		DIE("mmap: %s", strerror(errno));
 	d->handle = create.handle;
@@ -135,16 +135,16 @@ static void dumb_create(int fd, uint32_t w, uint32_t h, uint32_t bpp, struct dum
 	d->size = create.size;
 }
 
-static void dumb_destroy(int fd, struct dumb *d)
+static inline void dumb_destroy(int fd, struct dumb *d)
 {
 	struct drm_mode_destroy_dumb destroy = { .handle = d->handle };
 
-	munmap(d->map, d->size);
+	munmap(d->map, (size_t)d->size);
 	drmIoctl(fd, DRM_IOCTL_MODE_DESTROY_DUMB, &destroy);
 }
 
 /* Показать кадр fb размером w x h по центру экрана на несколько секунд и убрать. */
-static void show(struct screen *s, uint32_t plane, uint32_t fb, uint32_t w, uint32_t h, int seconds)
+static inline void show(struct screen *s, uint32_t plane, uint32_t fb, uint32_t w, uint32_t h, int seconds)
 {
 	int x = ((int)s->width - (int)w) / 2, y = ((int)s->height - (int)h) / 2;
 
