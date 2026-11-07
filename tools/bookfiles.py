@@ -14,8 +14,8 @@ SCRIPT_BLOCK = re.compile(r"^#{2,3} `([\w.-]+\.(?:sh|patch))`[^\n]*\n.*?```(?:ba
 
 
 def chapters():
-    """Файлы книги в порядке чтения: NN-имя.md."""
-    return sorted(BOOK.glob("[0-9][0-9]-*.md"))
+    """Файлы книги в порядке чтения: NN-имя.md и вставки вида NNa-имя.md (00a идёт после 00)."""
+    return sorted(BOOK.glob("[0-9][0-9]*-*.md"))
 
 
 def strip_frontmatter(text):

@@ -8,6 +8,15 @@ tags:
 
 # Приложение В. Ссылки
 
+## Железо (глава 0)
+
+- [Allwinner Technology — Wikipedia](https://en.wikipedia.org/wiki/Allwinner_Technology)
+- [Mali (GPU) — Wikipedia](https://en.wikipedia.org/wiki/Mali_%28processor%29)
+- [Mesa: драйвер Panfrost](https://docs.mesa3d.org/drivers/panfrost.html)
+- [Mesa: драйвер Lima](https://docs.mesa3d.org/drivers/lima.html)
+- [Wayland: архитектура и роль композитора](https://wayland.freedesktop.org/architecture.html)
+- [Bootlin: перенос видеодвижка Allwinner в основное ядро, 2018](https://bootlin.com/blog/allwinner-vpu-support-in-mainline-linux-status-update/)
+
 ## Плата и ОС
 
 - [Armbian: Orange Pi Zero2](https://www.armbian.com/boards/orangepizero2)

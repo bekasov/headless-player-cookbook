@@ -13,6 +13,7 @@ from bookfiles import BOOK, FRONTMATTER, LINK, ROOT, SCRIPT_BLOCK, SCRIPTS, chap
 
 errors = []
 LIST_ITEM = re.compile(r"(?:[-*] |\d+\. )")
+LEVEL = re.compile(r"\*\*Уровень:\*\* (★☆☆ начальный|★★☆ средний|★★★ продвинутый)$")
 
 
 def err(path, line, msg):
@@ -79,6 +80,12 @@ def check_chapter_structure(path):
         err(path, 1, "нет frontmatter (aliases, tags)")
     if not body.startswith("# "):
         err(path, 1, "файл должен начинаться с заголовка первого уровня")
+    lines = path.read_text().splitlines()
+    for n, line in enumerate(lines, 1):
+        if line.startswith("## Рецепт "):
+            nxt = next((l for l in lines[n:] if l.strip()), "")
+            if not LEVEL.match(nxt):
+                err(path, n, "под заголовком рецепта нужна строка «**Уровень:** ★☆☆ начальный» (★★☆ средний, ★★★ продвинутый)")
 
 
 def check_scripts():
