@@ -82,16 +82,23 @@ def check_chapter_structure(path):
 
 
 def check_scripts():
+    """Скрипты и патчи из приложения А должны совпадать с файлами в scripts/ (в любой подпапке)."""
     appendix = BOOK / "12-appendix-a-scripts.md"
     found = dict(SCRIPT_BLOCK.findall(appendix.read_text()))
+    files = {}
+    for f in sorted(SCRIPTS.rglob("*")):
+        if f.suffix in (".sh", ".patch"):
+            if f.name in files:
+                err(f, 1, f"имя совпадает с {files[f.name].relative_to(ROOT)}")
+            files[f.name] = f
     for name, body in found.items():
-        f = SCRIPTS / name
-        if not f.exists():
-            err(appendix, 1, f"скрипт {name} есть в приложении, но нет scripts/{name}")
+        f = files.get(name)
+        if f is None:
+            err(appendix, 1, f"{name} есть в приложении, но нет в scripts/")
         elif f.read_text() != body:
             err(f, 1, f"отличается от текста в {appendix.name}")
-    for f in SCRIPTS.glob("*.sh"):
-        if f.name not in found:
+    for name, f in files.items():
+        if name not in found:
             err(f, 1, "файла нет в приложении А")
 
 

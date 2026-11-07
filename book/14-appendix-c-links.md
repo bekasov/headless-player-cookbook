@@ -40,6 +40,16 @@ tags:
 - [Форум Armbian: v4l2request для Rockchip и Allwinner](https://forum.armbian.com/topic/32449-repository-for-v4l2request-hardware-video-decoding-rockchip-allwinner/)
 - [Jellyfin: аппаратное ускорение](https://jellyfin.org/docs/general/post-install/transcoding/hardware-acceleration/)
 
+## Второй стенд
+
+- [Armbian: Banana Pi](https://www.armbian.com/bananapi/)
+- [gst-plugins-bad: запрос 1437, плитки NV12_32L32 в v4l2codecs](https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/-/merge_requests/1437)
+- [GStreamer: запрос 7355, перевод форматов V4L2 в пары DRM](https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/7355)
+- [Ядро: sun4i frontend и плиточный формат Allwinner (патч Bootlin)](https://patchwork.kernel.org/project/dri-devel/patch/20181204142218.16284-13-paul.kocialkowski@bootlin.com/)
+- [ffmpeg-devel: серия патчей V4L2 Request API, 2024](https://ffmpeg.org/pipermail/ffmpeg-devel/2024-August/332034.html)
+- [GStreamer: kmssink](https://gstreamer.freedesktop.org/documentation/kms/index.html)
+- [GStreamer: GstBaseSink](https://gstreamer.freedesktop.org/documentation/base/gstbasesink.html)
+
 ---
 
 Назад: [Приложение Б. Словарь](13-appendix-b-glossary.md) | Далее: [Приложение Г. Ответы](15-appendix-d-answers.md)

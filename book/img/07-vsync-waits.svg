@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 440" width="900" height="440" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif">
+  <rect width="900" height="440" fill="#FFFFFF"/>
+  <text x="24" y="36" font-size="20" font-weight="700" fill="#22303A">Почему 20 кадров/с: лишние ожидания обновления экрана</text>
+  <text x="24" y="58" font-size="13" fill="#5B6770">kmssink, экран 60 Гц (обновление раз в 16,7 мс). Раскладка по шагам: наша версия по коду kmssink 1.26.11</text>
+
+  <g stroke="#C9D0D6" stroke-width="1" stroke-dasharray="3 3">
+    <line x1="150" y1="92" x2="150" y2="300"/><line x1="210" y1="92" x2="210" y2="300"/><line x1="270" y1="92" x2="270" y2="300"/>
+    <line x1="330" y1="92" x2="330" y2="300"/><line x1="390" y1="92" x2="390" y2="300"/><line x1="450" y1="92" x2="450" y2="300"/>
+    <line x1="510" y1="92" x2="510" y2="300"/><line x1="570" y1="92" x2="570" y2="300"/><line x1="630" y1="92" x2="630" y2="300"/>
+    <line x1="690" y1="92" x2="690" y2="300"/><line x1="750" y1="92" x2="750" y2="300"/><line x1="810" y1="92" x2="810" y2="300"/>
+    <line x1="870" y1="92" x2="870" y2="300"/>
+  </g>
+  <text x="180" y="88" font-size="10" fill="#5B6770" text-anchor="middle">16,7 мс</text>
+  <text x="870" y="88" font-size="10" fill="#5B6770" text-anchor="middle">vblank</text>
+
+  <text x="24" y="138" font-size="13" font-weight="700" fill="#22303A">skip-vsync</text>
+  <text x="24" y="156" font-size="13" font-weight="700" fill="#22303A">=false</text>
+  <g font-size="12" fill="#22303A" text-anchor="middle">
+    <text x="240" y="114">кадр N</text><text x="420" y="114">кадр N+1</text><text x="600" y="114">кадр N+2</text><text x="780" y="114">кадр N+3</text>
+  </g>
+  <g stroke-width="1.2">
+    <rect x="150" y="122" width="60" height="40" fill="#F7EDD8" stroke="#B07A12"/><rect x="210" y="122" width="60" height="40" fill="#E3ECF4" stroke="#34607F"/><rect x="270" y="122" width="60" height="40" fill="#E4EFE8" stroke="#2E6B4F"/>
+    <rect x="330" y="122" width="60" height="40" fill="#F7EDD8" stroke="#B07A12"/><rect x="390" y="122" width="60" height="40" fill="#E3ECF4" stroke="#34607F"/><rect x="450" y="122" width="60" height="40" fill="#E4EFE8" stroke="#2E6B4F"/>
+    <rect x="510" y="122" width="60" height="40" fill="#F7EDD8" stroke="#B07A12"/><rect x="570" y="122" width="60" height="40" fill="#E3ECF4" stroke="#34607F"/><rect x="630" y="122" width="60" height="40" fill="#E4EFE8" stroke="#2E6B4F"/>
+    <rect x="690" y="122" width="60" height="40" fill="#F7EDD8" stroke="#B07A12"/><rect x="750" y="122" width="60" height="40" fill="#E3ECF4" stroke="#34607F"/><rect x="810" y="122" width="60" height="40" fill="#E4EFE8" stroke="#2E6B4F"/>
+  </g>
+  <g font-size="9" fill="#22303A" text-anchor="middle">
+    <text x="180" y="146">SetPlane</text><text x="240" y="146">WaitVBlank</text><text x="300" y="146">PageFlip</text>
+    <text x="360" y="146">SetPlane</text><text x="420" y="146">WaitVBlank</text><text x="480" y="146">PageFlip</text>
+    <text x="540" y="146">SetPlane</text><text x="600" y="146">WaitVBlank</text><text x="660" y="146">PageFlip</text>
+    <text x="720" y="146">SetPlane</text><text x="780" y="146">WaitVBlank</text><text x="840" y="146">PageFlip</text>
+  </g>
+  <text x="150" y="186" font-size="12" fill="#A83A3A">3 обновления на кадр ≈ 50 мс → около 20 кадров/с; замер: 20,2 (49,5 мс на кадр)</text>
+
+  <text x="24" y="238" font-size="13" font-weight="700" fill="#22303A">skip-vsync</text>
+  <text x="24" y="256" font-size="13" font-weight="700" fill="#22303A">=true</text>
+  <g stroke-width="1.2" fill="#E4EFE8" stroke="#2E6B4F">
+    <rect x="150" y="222" width="124" height="40"/><rect x="274" y="222" width="124" height="40"/><rect x="398" y="222" width="124" height="40"/>
+    <rect x="522" y="222" width="124" height="40"/><rect x="646" y="222" width="124" height="40"/>
+  </g>
+  <g font-size="11" fill="#22303A" text-anchor="middle">
+    <text x="212" y="246">кадр N</text><text x="336" y="246">кадр N+1</text><text x="460" y="246">кадр N+2</text><text x="584" y="246">кадр N+3</text><text x="708" y="246">кадр N+4</text>
+  </g>
+  <text x="150" y="286" font-size="12" fill="#2E6B4F">темп задаёт декодер (около 34 мс на кадр); замер: 28,9 кадра/с</text>
+
+  <rect x="24" y="316" width="852" height="104" rx="6" fill="#E4EFE8" stroke="#2E6B4F" stroke-width="1.6"/>
+  <text x="40" y="340" font-size="14" font-weight="700" fill="#22303A">Что известно точно</text>
+  <text x="40" y="362" font-size="13" fill="#22303A">После drmModeSetPlane kmssink вызывает drmWaitVBlank, затем drmModePageFlip и ждёт события,</text>
+  <text x="40" y="381" font-size="13" fill="#22303A">если skip-vsync выключен (gstkmssink.c, версия 1.26.11).</text>
+  <text x="40" y="404" font-size="13" fill="#22303A">Справка свойства: skip-vsync нужен атомарным драйверам, чтобы не ждать vsync дважды.</text>
+</svg>

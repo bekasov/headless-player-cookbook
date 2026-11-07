@@ -1,0 +1,43 @@
+--- gstv4l2format.c.orig
++++ gstv4l2format.c
+@@ -53,7 +53,7 @@
+   {V4L2_PIX_FMT_P010,             GST_VIDEO_FORMAT_P010_10LE,       DRM_FORMAT_INVALID, DRM_FORMAT_MOD_INVALID, 0},
+   {V4L2_PIX_FMT_YUYV,             GST_VIDEO_FORMAT_YUY2,            DRM_FORMAT_INVALID, DRM_FORMAT_MOD_INVALID, 0},
+   {V4L2_PIX_FMT_MM21,             GST_VIDEO_FORMAT_NV12_16L32S,     DRM_FORMAT_INVALID, DRM_FORMAT_MOD_INVALID, 0},
+-  {V4L2_PIX_FMT_SUNXI_TILED_NV12, GST_VIDEO_FORMAT_NV12_32L32,      DRM_FORMAT_INVALID, DRM_FORMAT_MOD_INVALID, 0},
++  {V4L2_PIX_FMT_SUNXI_TILED_NV12, GST_VIDEO_FORMAT_NV12_32L32,      DRM_FORMAT_NV12, DRM_FORMAT_MOD_ALLWINNER_TILED, 0},
+   {V4L2_PIX_FMT_NV12_4L4,         GST_VIDEO_FORMAT_NV12_4L4,        DRM_FORMAT_INVALID, DRM_FORMAT_MOD_INVALID, 0},
+   {V4L2_PIX_FMT_NC12,             GST_VIDEO_FORMAT_UNKNOWN,         DRM_FORMAT_NV12,    DRM_FORMAT_MOD_BROADCOM_SAND128, 2},
+   {V4L2_PIX_FMT_NV12,             GST_VIDEO_FORMAT_NV12,            DRM_FORMAT_INVALID, DRM_FORMAT_MOD_INVALID, 0},
+@@ -80,6 +80,11 @@
+             gst_video_dma_drm_format_from_gst_format (gst_v4l2_descriptions
+             [i].gst_fmt, &drm_modifier);
+         v4l2_descs[i].drm_modifier = drm_modifier;
++        if (v4l2_descs[i].drm_fourcc == DRM_FORMAT_INVALID &&
++            gst_v4l2_descriptions[i].drm_fourcc != DRM_FORMAT_INVALID) {
++          v4l2_descs[i].drm_fourcc = gst_v4l2_descriptions[i].drm_fourcc;
++          v4l2_descs[i].drm_modifier = gst_v4l2_descriptions[i].drm_modifier;
++        }
+ 
+         info = gst_video_format_get_info (gst_v4l2_descriptions[i].gst_fmt);
+         v4l2_descs[i].num_planes = GST_VIDEO_FORMAT_INFO_N_PLANES (info);
+@@ -206,6 +211,19 @@
+   }
+ 
+   if (drm_fourcc == DRM_FORMAT_NV12
++      && drm_mod == DRM_FORMAT_MOD_ALLWINNER_TILED) {
++    /* Cedrus: bytesperline is the 32-aligned width, chroma follows luma */
++    guint32 bpl = V4L2_TYPE_IS_MULTIPLANAR (fmt->type) ?
++        pix_mp->plane_fmt[0].bytesperline : pix->bytesperline;
++
++    out_drm_info->vinfo.offset[0] = 0;
++    out_drm_info->vinfo.offset[1] = bpl * GST_ROUND_UP_32 (pix_mp->height);
++    out_drm_info->vinfo.stride[0] = bpl;
++    out_drm_info->vinfo.stride[1] = bpl;
++    return TRUE;
++  }
++
++  if (drm_fourcc == DRM_FORMAT_NV12
+       && drm_mod == DRM_FORMAT_MOD_BROADCOM_SAND128) {
+     out_drm_info->vinfo.offset[1] = pix_mp->height * 128;
+     out_drm_info->vinfo.stride[0] = pix_mp->plane_fmt[0].bytesperline;

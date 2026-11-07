@@ -9,7 +9,8 @@ SCRIPTS = ROOT / "scripts"
 FRONTMATTER = re.compile(r"\A---\n.*?\n---\n", re.S)
 FOOTER = re.compile(r"\n---\n\n(?:Назад|Далее|В начало):[^\n]*\n*\Z")
 LINK = re.compile(r"(!?)\[([^\]]*)\]\(([^)\s]+)\)")
-SCRIPT_BLOCK = re.compile(r"^## `([\w.-]+\.sh)`[^\n]*\n.*?```bash\n(.*?)```", re.S | re.M)
+# Заголовок «## `имя.sh`» или «### `имя.patch`» и первый блок bash/diff под ним.
+SCRIPT_BLOCK = re.compile(r"^#{2,3} `([\w.-]+\.(?:sh|patch))`[^\n]*\n.*?```(?:bash|diff)\n(.*?)```", re.S | re.M)
 
 
 def chapters():
