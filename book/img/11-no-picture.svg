@@ -73,7 +73,7 @@
     <text x="536" y="550" fill="#5B6770">глава 8</text>
 
     <rect x="520" y="627" width="360" height="56" rx="6" fill="#EEF0F2" stroke="#5B6770" stroke-width="1.4"/>
-    <text x="536" y="650">Опережение звука, очереди; нехватка CMA</text>
+    <text x="536" y="650">Опережение звука, очереди; Not enough memory: CMA</text>
     <text x="536" y="670" fill="#5B6770">главы 10 и 9</text>
   </g>
 

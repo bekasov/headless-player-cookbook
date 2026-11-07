@@ -14,7 +14,7 @@
 
   <rect x="40" y="142" width="398" height="64" rx="5" fill="#E3ECF4" stroke="#34607F" stroke-width="1.5"/>
   <text x="54" y="167" font-size="14" font-weight="700" fill="#22303A">Поток 0: видео</text>
-  <text x="54" y="189" font-size="13" fill="#22303A">H.265 (HEVC), Main 10, 1920x1080, 25 к/с</text>
+  <text x="54" y="189" font-size="13" fill="#22303A">H.265 (HEVC), Main 10, 1920×1080, 25 к/с</text>
 
   <rect x="40" y="218" width="398" height="64" rx="5" fill="#F7EDD8" stroke="#B07A12" stroke-width="1.5"/>
   <text x="54" y="243" font-size="14" font-weight="700" fill="#22303A">Поток 1: звук</text>
