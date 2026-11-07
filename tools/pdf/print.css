@@ -64,6 +64,7 @@ pre {
   font-size: 8.3pt;
   line-height: 1.35;
   white-space: pre-wrap;
+  tab-size: 4;
   overflow-wrap: anywhere;
   break-inside: avoid;
 }

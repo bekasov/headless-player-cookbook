@@ -304,4 +304,4 @@ patch gstv4l2format.c < ~/bpi-m1-notes/v4l2codecs-sunxi-tiled-drm.patch
 
 ---
 
-Назад: [Глава 11. Методика](11-method.md) | Далее: [Приложение Б. Словарь](13-appendix-b-glossary.md)
+Назад: [Глава 12. Практикум на C](12-drm-in-c.md) | Далее: [Приложение Б. Словарь](14-appendix-b-glossary.md)

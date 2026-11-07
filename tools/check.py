@@ -90,7 +90,7 @@ def check_chapter_structure(path):
 
 def check_scripts():
     """Скрипты и патчи из приложения А должны совпадать с файлами в scripts/ (в любой подпапке)."""
-    appendix = BOOK / "12-appendix-a-scripts.md"
+    appendix = BOOK / "13-appendix-a-scripts.md"
     found = dict(SCRIPT_BLOCK.findall(appendix.read_text()))
     files = {}
     for f in sorted(SCRIPTS.rglob("*")):
@@ -107,6 +107,20 @@ def check_scripts():
     for name, f in files.items():
         if name not in found:
             err(f, 1, "файла нет в приложении А")
+
+
+LISTING = re.compile(r"^```\w+\n((?://|#) (examples/[\w./-]+)\n.*?)^```", re.S | re.M)
+
+
+def check_listings():
+    """Листинг, первая строка которого «// examples/путь», должен совпадать с файлом."""
+    for path in chapters():
+        for body, rel in LISTING.findall(path.read_text()):
+            f = ROOT / rel
+            if not f.exists():
+                err(path, 1, f"листинг ссылается на {rel}, а файла нет")
+            elif f.read_text() != body:
+                err(path, 1, f"листинг {rel} отличается от файла")
 
 
 def check_external(urls):
@@ -131,6 +145,7 @@ def main():
     for f in chapters():
         check_chapter_structure(f)
     check_scripts()
+    check_listings()
     if "--external" in sys.argv:
         check_external(external)
     for e in errors:

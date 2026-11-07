@@ -73,7 +73,7 @@ CmaFree:   46780 kB
 **Задача.** Узнать минимум свободной CMA *во время* воспроизведения.
 
 **Решение.** Опрашивать `/proc/meminfo` в фоне, пока идёт проигрывание, и сохранить
-минимум. Фрагмент скрипта (целиком в [приложении А](12-appendix-a-scripts.md)):
+минимум. Фрагмент скрипта (целиком в [приложении А](13-appendix-a-scripts.md)):
 
 ```bash
 ( while :; do grep CmaFree /proc/meminfo; sleep 0.3; done ) > "$HOME/test/cma-samples.tmp" &
@@ -204,7 +204,7 @@ sudo grep -E 'Free pages count| CMA ' /proc/pagetypeinfo
 ```
 
 4. Гонять короткие запуски, пока сбой не случится, и в момент сбоя сохранить журналы
-   (скрипт `catch-fail.sh` в [приложении А](12-appendix-a-scripts.md)).
+   (скрипт `catch-fail.sh` в [приложении А](13-appendix-a-scripts.md)).
 5. В плеере повторять запуск при этом сбое (скрипт `play-retry.sh` там же).
 
 Ответы второго стенда:

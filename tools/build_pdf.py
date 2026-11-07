@@ -70,7 +70,7 @@ def chapter_for_print(path):
     text = LINK.sub(relink, text)
     # служебные разделы глав и подзаголовки приложений В и Г не нужны в оглавлении
     text = re.sub(r"^(## (?:Вопросы для самопроверки|Где почитать))$", r"\1 {.unlisted}", text, flags=re.M)
-    if path.name.startswith(("14-", "15-")):
+    if path.name.startswith(("15-", "16-")):
         text = re.sub(r"^(## .*)$", r"\1 {.unlisted}", text, flags=re.M)
     return callouts_to_divs(text)
 

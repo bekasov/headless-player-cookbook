@@ -25,12 +25,15 @@ jobs:
             https://github.com/jgm/pandoc/releases/download/3.10.2/pandoc-3.10.2-1-amd64.deb
           sudo apt-get update
           sudo apt-get install -y "$RUNNER_TEMP/pandoc.deb" \
-            fonts-noto-core fonts-noto-mono fonts-dejavu-core
+            fonts-noto-core fonts-noto-mono fonts-dejavu-core build-essential libdrm-dev pkg-config
           pandoc --version | head -n 1
           google-chrome --version
 
       - name: Check book
         run: python3 tools/check.py
+
+      - name: Build C examples
+        run: make -C examples/drm CFLAGS="-O2 -Wall -Wextra -Werror"
 
       - name: Build PDF
         run: python3 tools/build_pdf.py

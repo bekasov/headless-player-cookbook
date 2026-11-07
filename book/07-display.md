@@ -343,7 +343,7 @@ sudo dmesg | grep -E 'GEM object|framebuffer|drm_gem_fb|addfb2' | tail -n 12
 декодер даёт 30.
 
 **Решение.** Сравнить один и тот же конвейер без синхронизации по часам (скрипт
-`run-fps2.sh` в [приложении А](12-appendix-a-scripts.md)), меняя только `skip-vsync`:
+`run-fps2.sh` в [приложении А](13-appendix-a-scripts.md)), меняя только `skip-vsync`:
 
 ```bash
 # [плата]

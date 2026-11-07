@@ -103,7 +103,7 @@ gst-launch-1.0 audiotestsrc wave=sine freq=440 num-buffers=200 ! audioconvert ! 
 **Задача.** Выяснить, какая часть конвейера вызывает остановку, не гадая.
 
 **Решение.** Прогнать варианты, меняя по одной детали. Скрипт с функцией `run` есть в
-[приложении А](12-appendix-a-scripts.md). Результаты стенда:
+[приложении А](13-appendix-a-scripts.md). Результаты стенда:
 
 | Вариант | Что в конвейере | Предзагрузка |
 |---|---|---|
@@ -169,7 +169,7 @@ gst-launch-1.0 filesrc location="$1" ! matroskademux name=d \
 ```
 
 (Запуск через `cage` и с переменными из главы 8, целиком в
-[приложении А](12-appendix-a-scripts.md).)
+[приложении А](13-appendix-a-scripts.md).)
 
 Ответ стенда, 10 бит 1080p со звуком:
 
@@ -215,7 +215,7 @@ real 1m2.468s   user 0m10.545s   sys 0m6.785s
 
 **Решение.** Измерить опоздание каждого кадра (рецепт 11.8) без очереди и с очередью на
 4 кадра между декодером и приёмником (скрипт `run-lat.sh` в
-[приложении А](12-appendix-a-scripts.md)):
+[приложении А](13-appendix-a-scripts.md)):
 
 ```bash
 # [плата]
@@ -277,7 +277,7 @@ d.audio_0 ! queue max-size-buffers=0 max-size-bytes=0 max-size-time=2000000000 !
   ! audioconvert ! audio/x-raw,channels=2 ! audioresample ! alsasink device=plughw:CARD=sun4ihdmi,DEV=0
 ```
 
-Скрипт целиком (`play.sh`) в [приложении А](12-appendix-a-scripts.md). Ответ второго стенда:
+Скрипт целиком (`play.sh`) в [приложении А](13-appendix-a-scripts.md). Ответ второго стенда:
 `avdec_ac3` пришёл из `gstreamer1.0-libav`; 40 секунд фильма 1920x800 со звуком AC-3 5.1
 (448 кбит/с) прошли синхронно, без ошибок в журнале; `user` 7,0 с + `sys` 2,1 с за 40 с,
 около 23% одного ядра.

@@ -61,4 +61,4 @@ tags:
 
 ---
 
-Назад: [Приложение Б. Словарь](13-appendix-b-glossary.md) | Далее: [Приложение Г. Ответы](15-appendix-d-answers.md)
+Назад: [Приложение Б. Словарь](14-appendix-b-glossary.md) | Далее: [Приложение Г. Ответы](16-appendix-d-answers.md)

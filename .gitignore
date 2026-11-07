@@ -6,3 +6,8 @@ dist/
 !.obsidian/app.json
 
 __pycache__/
+
+# собранные примеры
+examples/drm/drm-info
+examples/drm/drm-line
+examples/drm/drm-nv12
